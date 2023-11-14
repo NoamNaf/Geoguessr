@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Round 1/5"
+        android:id="@+id/roundview2"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Distance from point:"
+        android:textSize="15dp"
+        android:textAlignment="center"
+        android:id="@+id/distanceview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Points:"
+        android:layout_marginTop="20dip"
+        android:textSize="15dp"
+        android:textAlignment="center"
+        android:id="@+id/pointsview"/>
+        
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:text="Next Round"
+        android:id="@+id/continuebtn"
+        android:background="@drawable/rounded_corner"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:padding="16dp"/>
+    
+</LinearLayout>
