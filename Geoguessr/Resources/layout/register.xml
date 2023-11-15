@@ -1,49 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    <LinearLayout
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/loginbackground"
+    tools:context="com.example.user.androidloginscreen.MainActivity">
+
+    <androidx.cardview.widget.CardView
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:orientation="vertical"
-         android:layout_weight="1">
+         android:layout_margin="30dp"
+         app:cardCornerRadius="30dp"
+         app:cardElevation="20dp">
 
-         <TextView
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="Welcome to geoguessr!!!"
-         android:textSize="25dp"
-         android:textAlignment="center"/>
-
-        <EditText
-            android:id="@+id/newUsername"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Username"
-            android:inputType="text" />
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/edittext">
 
-        <EditText
-            android:id="@+id/newPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:inputType="textPassword"
-            android:hint="Password"/>
-        
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:textSize="36sp"
+                android:textAlignment="center"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/newUsername"
+                android:background="@drawable/edittext"
+                android:layout_marginTop="20dp"
+                android:padding="8dp"
+                android:hint="Username"
+                android:drawablePadding="8dp"
+                android:inputType="text"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/newPassword"
+                android:background="@drawable/edittext"
+                android:layout_marginTop="20dp"
+                android:inputType="textPassword"
+                android:padding="8dp"
+                android:hint="Password"
+                android:drawablePadding="8dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:textSize="18sp"
+                android:layout_marginTop="30dp"
+                android:text="Sign Up"
+                android:id="@+id/registerbtn"
+                android:backgroundTint="#8692f7"/>
+
         </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register and start playing!"
-        android:layout_marginTop="20dip"
-        android:id="@+id/buttonRegister"
-        android:background="@drawable/rounded_corner"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:padding="16dp"/>
-    
+
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>

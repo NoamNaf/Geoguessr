@@ -25,8 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Player"
-                android:id="@+id/r1name"/> 
+                android:text="Player"/>  
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

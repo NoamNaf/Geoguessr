@@ -17,14 +17,17 @@ namespace Geoguessr
         private EditText username;
         private EditText password;
         private Button loginbtn;
+        private Button goRegister;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.login);
-            loginbtn = FindViewById<Button>(Resource.Id.buttonLogin);
+            loginbtn = FindViewById<Button>(Resource.Id.loginbtn);
             username = FindViewById<EditText>(Resource.Id.username);
-            password = FindViewById<EditText>(Resource.Id.editPassword);
+            password = FindViewById<EditText>(Resource.Id.password);
+            //goRegister = FindViewById<Button>(Resource.Id.goRegisterbtn);
+
             loginbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             loginbtn.SetOnClickListener(this);
             // Create your application here

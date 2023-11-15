@@ -24,7 +24,7 @@ namespace Geoguessr
             SetContentView(Resource.Layout.register);
             newUsername = FindViewById<EditText>(Resource.Id.username);
             newPassword = FindViewById<EditText>(Resource.Id.newPassword);
-            registerbtn = FindViewById<Button>(Resource.Id.buttonRegister);
+            registerbtn = FindViewById<Button>(Resource.Id.registerbtn);
             registerbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             registerbtn.SetOnClickListener(this);
             // Create your application here
