@@ -1,124 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Leaderboard"
-        android:textSize="25dp"
-        android:textAlignment="center"/>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="0,1,2"
-        android:layout_marginTop="20dip">
-
-        <TableRow
+        android:layout_marginTop="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"> 
+   
+        <TableRow android:background="#51B435"
+            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 1, Column 1" />
+                android:layout_weight="1"
+                android:text="Rank" /> 
+           <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Player"
+                android:id="@+id/r1name"/> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 1, Column 2" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Row 1, Column 3" />
-        </TableRow>
-
-        <TableRow
+                android:layout_weight="1"
+                android:text="Best Socre" /> 
+        </TableRow> 
+        <TableRow android:background="#F0F7F7"
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">>
+            android:layout_height="match_parent"> 
+           <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1" /> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 2, Column 1" />
+                android:layout_weight="1"
+                android:text="NoamNaf"
+                android:id="@+id/r1name"/> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 2, Column 2" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Row 2, Column 3" />
-        </TableRow>
-
-        <TableRow
+                android:layout_weight="1"
+                android:text="50000"
+                android:id="@+id/r1rank"/> 
+  
+        </TableRow> 
+        <TableRow android:background="#F0F7F7"
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">>
+            android:layout_height="match_parent"> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 3, Column 1" />
+                android:layout_weight="1"
+                android:text="2" /> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 3, Column 2" />
+                android:layout_weight="1"
+                android:text="NoamNaf"
+                android:id="@+id/r2name"/> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 3, Column 3" />
-        </TableRow>
-
-        <TableRow
+                android:layout_weight="1"
+                android:text="50000"
+                android:id="@+id/r2rank"/> 
+  
+        </TableRow> 
+        <TableRow android:background="#F0F7F7"
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">>
+            android:layout_height="match_parent"> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 4, Column 1" />
+                android:layout_weight="1"
+                android:text="3" /> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 4, Column 2" />
+                android:layout_weight="1"
+                android:text="NoamNaf"
+                android:id="@+id/r3name"/> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 4, Column 3" />
-        </TableRow>
-
-        <TableRow
+                android:layout_weight="1"
+                android:text="50000"
+                android:id="@+id/r3rank"/> 
+  
+        </TableRow> 
+        <TableRow android:background="#F0F7F7"
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">>
+            android:layout_height="match_parent"> 
+             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="4" /> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 5, Column 1" />
+                android:layout_weight="1"
+                android:text="NoamNaf"
+                android:id="@+id/r4name"/> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 5, Column 2" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Row 5, Column 3" />
-        </TableRow>
-
-        <TableRow
+                android:layout_weight="1"
+                android:text="50000"
+                android:id="@+id/r4rank"/> 
+  
+        </TableRow> 
+        <TableRow android:background="#F0F7F7"
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">>
+            android:layout_height="match_parent"> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 6, Column 1" />
+                android:layout_weight="1"
+                android:text="5" /> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 6, Column 2" />
+                android:layout_weight="1"
+                android:text="NoamNaf"
+                android:id="@+id/r5name"/> 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Row 6, Column 3" />
-        </TableRow>
-    </TableLayout>
-
+                android:layout_weight="1"
+                android:text="50000"
+                android:id="@+id/r5rank"/> 
+  
+        </TableRow> 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Main Menu"
+            android:id="@+id/returnbtn"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:layout_marginTop="10dip"
+            android:backgroundTint="#8B0000"/>
+    </TableLayout> 
+     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/leaderboard"/>
 </LinearLayout>
-
