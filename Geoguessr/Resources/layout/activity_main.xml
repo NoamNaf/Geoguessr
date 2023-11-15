@@ -15,6 +15,18 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:text="Login/Sign Up"
+           android:layout_marginTop="10dip"
+           android:id="@+id/loginorsignupbtn"
+           android:textSize="10sp"
+           android:textStyle="bold"
+           android:layout_gravity="right"
+           android:padding="10dp"
+            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +41,6 @@
         android:layout_height="wrap_content"
         android:text="Play"
         android:id="@+id/playbtn"
-        android:background="@drawable/rounded_corner"
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_gravity="center"
@@ -42,7 +53,6 @@
         android:text="Leaderboard"
         android:layout_marginTop="20dip"
         android:id="@+id/leaderboardbtn1"
-        android:background="@drawable/rounded_corner"
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_gravity="center"

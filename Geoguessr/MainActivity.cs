@@ -12,6 +12,7 @@ namespace Geoguessr
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
+        private Button loginOrSignUpbtn;
         private Button playbtn;
         private Button leaderboardbtn;
         private GameLogic gameLogic;
@@ -22,13 +23,40 @@ namespace Geoguessr
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+            loginOrSignUpbtn = FindViewById<Button>(Resource.Id.loginorsignupbtn);
             playbtn = FindViewById<Button>(Resource.Id.playbtn);
-            playbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboardbtn = FindViewById<Button>(Resource.Id.leaderboardbtn1);
+            loginOrSignUpbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
+            playbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboardbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
 
+            loginOrSignUpbtn.Click += LoginOrSignUpbtn_Click;
             playbtn.Click += Playbtn_Click;
             leaderboardbtn.SetOnClickListener(this);
+        }
+
+        private void LoginOrSignUpbtn_Click(object sender, EventArgs e)
+        {
+            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+            builder.SetTitle("התרעה");
+            builder.SetMessage("");
+            builder.SetCancelable(true);
+            builder.SetPositiveButton("Login", LoginAction);
+            builder.SetNegativeButton("Register", RegisterAction);
+            Android.App.AlertDialog dialog = builder.Create();
+            dialog.Show();
+        }
+
+        private void LoginAction(object sender, DialogClickEventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(LoginActivity));
+            StartActivity(intent);
+        }
+
+        private void RegisterAction(object sender, DialogClickEventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(RegisterActivity));
+            StartActivity(intent);
         }
 
         private void Playbtn_Click(object sender, EventArgs e)

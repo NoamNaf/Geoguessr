@@ -31,15 +31,8 @@ namespace Geoguessr
         }
         public void OnClick(View v)
         {
-            if(newUsername != null && newPassword != null)
-            {
-                Intent intent = new Intent(this, typeof(MainActivity));
-                StartActivity(intent);
-            }
-            else
-            {
-                Toast.MakeText(this, "Please enter a legal username and password", ToastLength.Long).Show();
-            }
+            Intent intent = new Intent(this, typeof(MainActivity));
+            StartActivity(intent);
         }
     }
 }
