@@ -34,7 +34,7 @@ namespace Geoguessr
         }
         public void OnClick(View v)
         {
-            if(loginbtn != null && password != null)
+            if (loginbtn != null && password != null)
             {
                 Intent intent = new Intent(this, typeof(MainActivity));
                 StartActivity(intent);

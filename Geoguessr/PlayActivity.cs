@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using AndroidX.AppCompat.View.Menu;
 using Google.Android.Material.Behavior;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Geoguessr
         private Button guessbtn;
         private Button hintbtn;
         private string round;
+        private GameLogic gamelogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -28,7 +30,10 @@ namespace Geoguessr
             roundview = FindViewById<TextView>(Resource.Id.roundview1);
             guessbtn = FindViewById<Button>(Resource.Id.guessbtn);
             hintbtn = FindViewById<Button>(Resource.Id.hintbtn);
-            roundview.Text = this.round;
+            //roundview.Text = this.round;
+            //string num = gameLogic.GetRoundNum();
+
+            roundview.Text = gamelogic.GetRoundNum();
 
             guessbtn.Click += guessbtn_Click;
             hintbtn.Click += Hintbtn_Click;
@@ -61,7 +66,6 @@ namespace Geoguessr
         private void guessbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(RoundScoreActivity));
-            intent.PutExtra("round", Intent.GetStringExtra("round"));
             StartActivity(intent);
         }
     }

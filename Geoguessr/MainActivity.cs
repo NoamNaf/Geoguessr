@@ -15,7 +15,7 @@ namespace Geoguessr
         private Button loginOrSignUpbtn;
         private Button playbtn;
         private Button leaderboardbtn;
-        private GameLogic gameLogic;
+        public GameLogic gameLogic;
         ISharedPreferences sp;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -64,6 +64,7 @@ namespace Geoguessr
             Intent intent = new Intent(this, typeof(PlayActivity));
             string num = "1";
             intent.PutExtra("round", num);
+            gameLogic = new GameLogic();
             StartActivity(intent);
         }
 

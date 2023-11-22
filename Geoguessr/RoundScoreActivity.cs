@@ -46,10 +46,11 @@ namespace Geoguessr
             if(flag)
             {
                 Intent intent = new Intent(this, typeof(PlayActivity));
-                int sss = int.Parse(Intent.GetStringExtra("round"));
-                sss++;
-                string num = sss.ToString();
-                intent.PutExtra("round", num);
+                //int sss = int.Parse(Intent.GetStringExtra("round"));
+                //sss++;
+                //string num = sss.ToString();
+                //intent.PutExtra("round", num);
+                gameLogic.NextRound();
                 StartActivity(intent);
 
                 //intent.GetStringExtra("round") + 1
