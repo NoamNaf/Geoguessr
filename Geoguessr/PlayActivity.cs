@@ -25,7 +25,7 @@ namespace Geoguessr
         {
             base.OnCreate(savedInstanceState);
             //string num = Intent.GetStringExtra("round2");
-            this.round = "Round " + Intent.GetStringExtra("round") + "/5";
+            //this.round = "Round " + Intent.GetStringExtra("round") + "/5";
             SetContentView(Resource.Layout.play);
             roundview = FindViewById<TextView>(Resource.Id.roundview1);
             guessbtn = FindViewById<Button>(Resource.Id.guessbtn);
@@ -33,11 +33,12 @@ namespace Geoguessr
             //roundview.Text = this.round;
             //string num = gameLogic.GetRoundNum();
 
-            roundview.Text = gamelogic.GetRoundNum();
+            gamelogic = new GameLogic();
+
+            roundview.Text = "Round 1/5";
 
             guessbtn.Click += guessbtn_Click;
             hintbtn.Click += Hintbtn_Click;
-            // Create your application here
         }
 
         private void Hintbtn_Click(object sender, EventArgs e)
@@ -66,7 +67,18 @@ namespace Geoguessr
         private void guessbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(RoundScoreActivity));
-            StartActivity(intent);
+            string round = gamelogic.GetRoundNum().ToString();
+            intent.PutExtra("round", round);
+            StartActivityForResult(intent, 0);
+        }
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            if (resultCode == Result.Ok)
+            {
+                gamelogic.NextRound();
+                string round = gamelogic.GetRoundNum().ToString();
+                roundview.Text = "Round " + round + "/5";
+            }
         }
     }
 }

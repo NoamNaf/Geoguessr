@@ -14,11 +14,13 @@ namespace Geoguessr
 {
     public class GameLogic
     {
-        public int roundNum;
+        private int roundNum;
         private int roundPoints;
         private int finalPoints;
         private int distance;
         private string hint;
+        private GoogleMapsShow googleMaps;
+        private StreetView streetView;
 
         public GameLogic()
         {
@@ -26,9 +28,9 @@ namespace Geoguessr
             roundPoints = 0;
             finalPoints = 0;
         }
-        public string GetRoundNum()
+        public int GetRoundNum()
         {
-            return roundNum.ToString();
+            return roundNum;
         }
         public void NextRound()
         {
@@ -39,7 +41,7 @@ namespace Geoguessr
         set { roundPoints = value; }
         }
 
-        public int MessureDistance(GoogleMapsShow maker, StreetView location)
+        /*public int MessureDistance(GoogleMapsShow maker, StreetView location)//מחשב את המרחק בין המרקר לנקודת streetview.
         {
             
         }
@@ -47,5 +49,10 @@ namespace Geoguessr
         {
 
         }
+        public string GetHint()//מקבלת את הרמז ממחלקת streetview.
+        {
+
+        }
+        */
     }
 }

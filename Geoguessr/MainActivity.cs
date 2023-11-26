@@ -6,6 +6,7 @@ using AndroidX.AppCompat.App;
 using Android.Views;
 using Android.Content;
 using System;
+using System.IO;
 
 namespace Geoguessr
 {
@@ -62,9 +63,8 @@ namespace Geoguessr
         private void Playbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(PlayActivity));
-            string num = "1";
+            string num = "0";
             intent.PutExtra("round", num);
-            gameLogic = new GameLogic();
             StartActivity(intent);
         }
 
