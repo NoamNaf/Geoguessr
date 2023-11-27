@@ -32,5 +32,9 @@ namespace Geoguessr
             Intent intent = new Intent(this, typeof(MainActivity));
             StartActivity(intent);
         }
+        private void GetInformationFromDB(int rank)//פעולה שמקבלת דרגה מטבלת הנתונים, ומחזירה את המשתמש עם כמות הנקודות, לפי המבוקש.
+        {
+
+        }
     }
 }

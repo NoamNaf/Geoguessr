@@ -19,19 +19,16 @@ namespace Geoguessr
         private TextView roundview;
         private Button guessbtn;
         private Button hintbtn;
-        private string round;
+        private Button openmapbtn;
         private GameLogic gamelogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            //string num = Intent.GetStringExtra("round2");
-            //this.round = "Round " + Intent.GetStringExtra("round") + "/5";
             SetContentView(Resource.Layout.play);
             roundview = FindViewById<TextView>(Resource.Id.roundview1);
             guessbtn = FindViewById<Button>(Resource.Id.guessbtn);
             hintbtn = FindViewById<Button>(Resource.Id.hintbtn);
-            //roundview.Text = this.round;
-            //string num = gameLogic.GetRoundNum();
+            openmapbtn = FindViewById<Button>(Resource.Id.openmapbtn);
 
             gamelogic = new GameLogic();
 
@@ -39,6 +36,7 @@ namespace Geoguessr
 
             guessbtn.Click += guessbtn_Click;
             hintbtn.Click += Hintbtn_Click;
+            openmapbtn.Click += OpenMapbtn_Click;
         }
 
         private void Hintbtn_Click(object sender, EventArgs e)
@@ -53,7 +51,7 @@ namespace Geoguessr
             dialog.Show();
         }
 
-        private void HintAction(object sender, DialogClickEventArgs e)
+        private void HintAction(object sender, DialogClickEventArgs e)//פעולה שמקבלת את מדינת מיקום ה streetview, ורושמת את המדינה במקום הכפתור, ומכבה אותו.
         {
             hintbtn.Enabled = false;
             hintbtn.Text = "USA";
@@ -63,7 +61,6 @@ namespace Geoguessr
         {
             Toast.MakeText(this, "Cancel clicked", ToastLength.Short).Show();
         }
-
         private void guessbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(RoundScoreActivity));
@@ -79,6 +76,14 @@ namespace Geoguessr
                 string round = gamelogic.GetRoundNum().ToString();
                 roundview.Text = "Round " + round + "/5";
             }
+        }
+        public void OpenMapbtn_Click(object sender, EventArgs e)//פעם אחת הכפתור פותח את המפה על ה streetview, פעם אחרת הוא סוגר את המפה וחוזר ל streetview.
+        {
+            
+        }
+        public void TurnOnGuessButton()//פעולה שבודקת האם אפשר להדליק את הכפתור guess, אם כן היא מדליקה את הכפתור.
+        {
+            
         }
     }
 }

@@ -17,7 +17,6 @@ namespace Geoguessr
     {
         private TextView roundview;
         private Button continuebtn;
-        private GameLogic gameLogic;
         private string round;
         private bool flag = true;
         protected override void OnCreate(Bundle savedInstanceState)

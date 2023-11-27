@@ -15,8 +15,7 @@ namespace Geoguessr
     {
         private int latitude;
         private int longitude;
-
-        /*public void RandomLocation()//בוחר מקום רנדומלי מ streetview
+        public void RandomLocation()//בוחר מקום רנדומלי מ streetview
         {
 
         }
@@ -24,10 +23,9 @@ namespace Geoguessr
         {
 
         }
-        public string calculateHInt()//בודק באיזו מדינה נמצאת התמונה, ומחזירה את שם המדינה.
+        public string CalculateHInt()//בודק באיזו מדינה נמצאת התמונה, ומחזירה את שם המדינה.
         {
 
         }
-        */
     }
 }

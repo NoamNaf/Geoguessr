@@ -15,22 +15,25 @@ namespace Geoguessr
     [Activity(Label = "FinalResultActivity")]
     public class FinalResultActivity : Activity, View.IOnClickListener
     {
+        private TextView finalscoreview;
         private Button playagainbtn;
         private Button homescreenbtn;
         private Button leaderboard2btn;
-        private GameLogic gameLogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.finalScore);
 
+            finalscoreview = FindViewById<TextView>(Resource.Id.finalscoreview);
             playagainbtn = FindViewById<Button>(Resource.Id.playagainbtn);
             homescreenbtn = FindViewById<Button>(Resource.Id.mainpagebtn);
             leaderboard2btn = FindViewById<Button>(Resource.Id.leaderboardbtn2);
             playagainbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             homescreenbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboard2btn.SetBackgroundResource(Resource.Drawable.rounded_corner);
+
+            finalscoreview.Text = "aa";//*
 
             playagainbtn.SetOnClickListener(this);
             homescreenbtn.SetOnClickListener(this);
@@ -43,8 +46,6 @@ namespace Geoguessr
             if(view == playagainbtn)
             {
                 Intent intent = new Intent(this, typeof(PlayActivity));
-                string num = "1";
-                intent.PutExtra("round", num);
                 StartActivity(intent);
             }
             if(view == homescreenbtn)

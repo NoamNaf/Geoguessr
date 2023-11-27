@@ -17,7 +17,7 @@ namespace Geoguessr
         private string password;
         private int bestScore;
 
-        /*public bool IsLegal(string userName, string passwrod)//בודקת אם השם משתמש והסיסמה שהמשתמש שם נכונים, אם לא מחזיר flase.
+        public bool IsLegal(string userName, string passwrod)//בודקת אם השם משתמש והסיסמה שהמשתמש שם נכונים, אם לא מחזיר flase.
         {
 
         }
@@ -33,10 +33,9 @@ namespace Geoguessr
         {
 
         }
-        public void AddToDB(string userName, string passwrod)//מעדכנת את תוצאת שיא כל הזמנים של המשתמש ללוח הנתונים. אם זהו הפעם הראשנונה שנכנסו למשתמש, השיא יהיה 0.
+        public void AddBestScoreToDB(string userName, string passwrod)//מעדכנת את תוצאת שיא כל הזמנים של המשתמש ללוח הנתונים. אם זהו הפעם הראשנונה שנכנסו למשתמש, השיא יהיה 0.
         {
-            bestScore = 0;
+            
         }
-        */
     }
 }
