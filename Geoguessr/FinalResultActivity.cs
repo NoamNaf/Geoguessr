@@ -19,6 +19,8 @@ namespace Geoguessr
         private Button playagainbtn;
         private Button homescreenbtn;
         private Button leaderboard2btn;
+        private Player player;
+        private GameLogic gameLogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);

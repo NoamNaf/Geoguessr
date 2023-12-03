@@ -19,6 +19,7 @@ namespace Geoguessr
         private Button continuebtn;
         private string round;
         private bool flag = true;
+        private GameLogic GameLogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);

@@ -17,6 +17,7 @@ namespace Geoguessr
         private EditText newUsername;
         private EditText newPassword;
         private Button registerbtn;
+        private Player player;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -34,5 +35,10 @@ namespace Geoguessr
             Intent intent = new Intent(this, typeof(MainActivity));
             StartActivity(intent);
         }
+        public bool IsAccountOK()
+        {
+
+        }
+        
     }
 }

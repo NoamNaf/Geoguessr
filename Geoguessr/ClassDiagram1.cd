@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Geoguessr.FinalResultActivity" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="5.75" Y="1.5" Width="1.5" />
+  <Class Name="Geoguessr.FinalResultActivity" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAAAAQAAAAAAAAAAAAAAAAACACAAAAAAAAAAAAAAAYA=</HashCode>
+      <HashCode>gAAAAQAAAAAAAAAAAAAAAAACACgAAAABAAAAAAAAAYA=</HashCode>
       <FileName>FinalResultActivity.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="player" />
+      <Field Name="gameLogic" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Geoguessr.GameLogic" Collapsed="true">
-    <Position X="6.25" Y="0.5" Width="1.5" />
+  <Class Name="Geoguessr.GameLogic">
+    <Position X="4.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEgAAAAAAAAgAAIgYEAAAgAEAAAAJAAAAAg=</HashCode>
       <FileName>GameLogic.cs</FileName>
@@ -19,39 +23,45 @@
       <Field Name="streetView" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Geoguessr.GoogleMapsShow" Collapsed="true">
-    <Position X="11.25" Y="0.5" Width="1.5" />
+  <Class Name="Geoguessr.GoogleMapsShow">
+    <Position X="9.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GoogleMapsShow.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Geoguessr.LeaderboardActivity" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="9.5" Y="3.75" Width="1.5" />
+  <Class Name="Geoguessr.LeaderboardActivity" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAACACAAIAAABAAAAAAAAAA=</HashCode>
       <FileName>LeaderboardActivity.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Geoguessr.LoginActivity" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="2" Width="1.5" />
+  <Class Name="Geoguessr.LoginActivity" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIAECACQAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAACAAAAAAAAAAAAAAAIAECACQAAAABAAAAAgAAAAA=</HashCode>
       <FileName>LoginActivity.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="player" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Geoguessr.MainActivity" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAQAAEAAAAIAAAQAACACgAIgACAAAEgAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAQAAEAAAAIAAAQAACACgAIgADAAAEgAAAAAA=</HashCode>
       <FileName>MainActivity.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="player" />
+    </ShowAsAssociation>
     <Lollipop Position="0.1" Collapsed="true" />
   </Class>
   <Class Name="Geoguessr.PlayActivity">
-    <Position X="3.5" Y="0.5" Width="1.5" />
+    <Position X="2.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAkAAAAQgEACABAIAAIAIAAEBAAAA=</HashCode>
       <FileName>PlayActivity.cs</FileName>
@@ -60,31 +70,37 @@
       <Field Name="gamelogic" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Geoguessr.Player" Collapsed="true">
-    <Position X="9.25" Y="1.5" Width="1.5" />
+  <Class Name="Geoguessr.Player">
+    <Position X="13.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAAQAAAAEAAAAAAAAAAAAAACAAAACIgEAAAA=</HashCode>
+      <HashCode>AAAAAIAAAAQAAAAEAAAAAAAAAAACAACAAAACIgEAAAA=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Geoguessr.RegisterActivity" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="5.75" Y="2.5" Width="1.5" />
+  <Class Name="Geoguessr.RegisterActivity" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gBAAAAAAAAAAAAAAAAAAAEACACAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>gBAACAAAAAAAAAAAAAAAAEACACAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>RegisterActivity.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="player" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Geoguessr.RoundScoreActivity" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="11" Y="4.75" Width="1.5" />
+  <Class Name="Geoguessr.RoundScoreActivity" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAIAACAACACAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>RoundScoreActivity.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="GameLogic" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Geoguessr.StreetView" Collapsed="true">
-    <Position X="9.25" Y="0.5" Width="1.5" />
+  <Class Name="Geoguessr.StreetView">
+    <Position X="7.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAAAIAAAAAAAQAAAACAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>StreetView.cs</FileName>

@@ -18,6 +18,7 @@ namespace Geoguessr
         private Button leaderboardbtn;
         public GameLogic gameLogic;
         ISharedPreferences sp;
+        Player player;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -31,6 +32,7 @@ namespace Geoguessr
             playbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboardbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
 
+            player = new Player();
             loginOrSignUpbtn.Click += LoginOrSignUpbtn_Click;
             playbtn.Click += Playbtn_Click;
             leaderboardbtn.SetOnClickListener(this);
@@ -63,8 +65,8 @@ namespace Geoguessr
         private void Playbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(PlayActivity));
-            string num = "0";
-            intent.PutExtra("round", num);
+            intent.PutExtra("sharedObject", player);
+
             StartActivity(intent);
         }
 

@@ -18,6 +18,7 @@ namespace Geoguessr
         private EditText password;
         private Button loginbtn;
         private Button goRegister;
+        private Player player;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -43,6 +44,10 @@ namespace Geoguessr
             {
                 Toast.MakeText(this, "Please enter a legal username and password", ToastLength.Long).Show();
             }
+        }
+        public bool IsAccountOK()
+        {
+
         }
     }
 }
