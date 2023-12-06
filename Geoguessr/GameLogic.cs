@@ -40,7 +40,7 @@ namespace Geoguessr
         { get { return roundPoints; }
         set { roundPoints = value; }
         }
-        public int MessureDistance(GoogleMapsShow maker, StreetView location)//מחשב את המרחק בין המרקר לנקודת streetview.
+        /*public int MessureDistance(GoogleMapsShow maker, StreetView location)//מחשב את המרחק בין המרקר לנקודת streetview.
         {
             
         }
@@ -52,6 +52,6 @@ namespace Geoguessr
         {
 
         }
-        
+        */
     }
 }

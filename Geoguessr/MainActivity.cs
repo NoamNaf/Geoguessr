@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Content;
 using System;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Geoguessr
 {
@@ -65,8 +66,9 @@ namespace Geoguessr
         private void Playbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(PlayActivity));
-            intent.PutExtra("sharedObject", player);
-
+            gameLogic = new GameLogic();
+            string serializedObj = JsonConvert.SerializeObject(gameLogic);
+            intent.PutExtra("gameLogic", serializedObj);
             StartActivity(intent);
         }
 

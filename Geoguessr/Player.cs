@@ -24,7 +24,7 @@ namespace Geoguessr
             this.password = null;
             this.bestScore = 0;
         }
-        public bool IsLegal(string userName, string passwrod)//בודקת אם השם משתמש והסיסמה שהמשתמש שם נכונים, אם לא מחזיר flase.
+        /*public bool IsLegal(string userName, string passwrod)//בודקת אם השם משתמש והסיסמה שהמשתמש שם נכונים, אם לא מחזיר flase.
         {
 
         }
@@ -48,5 +48,6 @@ namespace Geoguessr
         {
 
         }
+        */
     }
 }

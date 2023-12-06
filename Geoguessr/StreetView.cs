@@ -19,7 +19,7 @@ namespace Geoguessr
         {
 
         }
-        public string ReturnLocation()//מחזיר את המיקום של ה street view
+        /*public string ReturnLocation()//מחזיר את המיקום של ה street view
         {
 
         }
@@ -27,5 +27,6 @@ namespace Geoguessr
         {
 
         }
+        */
     }
 }

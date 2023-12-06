@@ -35,10 +35,11 @@ namespace Geoguessr
             Intent intent = new Intent(this, typeof(MainActivity));
             StartActivity(intent);
         }
-        public bool IsAccountOK()
+        /*public bool IsAccountOK()
         {
 
         }
+        */
         
     }
 }

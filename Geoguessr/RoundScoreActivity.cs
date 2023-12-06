@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Android.Views;
+using Newtonsoft.Json;
 
 namespace Geoguessr
 {
@@ -19,7 +20,7 @@ namespace Geoguessr
         private Button continuebtn;
         private string round;
         private bool flag = true;
-        private GameLogic GameLogic;
+        private GameLogic gameLogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,13 +31,14 @@ namespace Geoguessr
             roundview = FindViewById<TextView>(Resource.Id.roundview2);
             this.round = "Round " + Intent.GetStringExtra("round") + "/5";
             roundview.Text = this.round;
-            int rnum = int.Parse(Intent.GetStringExtra("round"));
-            if (rnum == 5)
+
+            if (Intent != null)
             {
-                continuebtn.Text = "See Final Result";
-                flag = false;
+                string serializedObj = Intent.GetStringExtra("gameLogic");
+                gameLogic = JsonConvert.DeserializeObject<GameLogic>(serializedObj);
             }
-            
+            this.round = "Round " + gameLogic.GetRoundNum() + "/5";
+            roundview.Text = this.round;
 
             continuebtn.SetOnClickListener(this);
             // Create your application here
@@ -45,12 +47,10 @@ namespace Geoguessr
         {
             if(flag)
             {
-                Intent intent = new Intent();
-                //string round = intent.GetStringExtra("round");
-                string round = intent.GetStringExtra("round");
-                intent.PutExtra("round", round);
-                SetResult(Result.Ok, intent);
-                Finish();
+                Intent intent = new Intent(this, typeof(PlayActivity));
+                string serializedObj = JsonConvert.SerializeObject(gameLogic);
+                intent.PutExtra("gameLogic", serializedObj);
+                StartActivity(intent);
             }
             else
             {

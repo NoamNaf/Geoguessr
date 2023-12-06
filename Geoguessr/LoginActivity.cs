@@ -45,9 +45,10 @@ namespace Geoguessr
                 Toast.MakeText(this, "Please enter a legal username and password", ToastLength.Long).Show();
             }
         }
-        public bool IsAccountOK()
+        /*public bool IsAccountOK()
         {
 
         }
+        */
     }
 }

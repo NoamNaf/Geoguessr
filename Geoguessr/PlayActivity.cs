@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.View.Menu;
 using Google.Android.Material.Behavior;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,12 @@ namespace Geoguessr
     [Activity(Label = "Play")]
     public class PlayActivity : Activity
     {
+        private string round;
         private TextView roundview;
         private Button guessbtn;
         private Button hintbtn;
         private Button openmapbtn;
-        private GameLogic gamelogic;
+        private GameLogic gameLogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,7 +32,19 @@ namespace Geoguessr
             hintbtn = FindViewById<Button>(Resource.Id.hintbtn);
             openmapbtn = FindViewById<Button>(Resource.Id.openmapbtn);
 
-            gamelogic = new GameLogic();
+            if (Intent != null)
+            {
+                string serializedObj = Intent.GetStringExtra("gameLogic");
+                gameLogic = JsonConvert.DeserializeObject<GameLogic>(serializedObj);
+            }
+            /*else
+            {
+                gameLogic = new GameLogic();
+            }
+            */
+
+            gameLogic.NextRound();
+            this.round = "Round " + gameLogic.GetRoundNum() + "/5";
 
             roundview.Text = "Round 1/5";
 
@@ -64,18 +78,9 @@ namespace Geoguessr
         private void guessbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(RoundScoreActivity));
-            string round = gamelogic.GetRoundNum().ToString();
-            intent.PutExtra("round", round);
-            StartActivityForResult(intent, 0);
-        }
-        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
-        {
-            if (resultCode == Result.Ok)
-            {
-                gamelogic.NextRound();
-                string round = gamelogic.GetRoundNum().ToString();
-                roundview.Text = "Round " + round + "/5";
-            }
+            string serializedObj = JsonConvert.SerializeObject(gameLogic);
+            intent.PutExtra("gameLogic", serializedObj);
+            StartActivity(intent);
         }
         public void OpenMapbtn_Click(object sender, EventArgs e)//פעם אחת הכפתור פותח את המפה על ה streetview, פעם אחרת הוא סוגר את המפה וחוזר ל streetview.
         {
