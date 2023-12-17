@@ -20,25 +20,21 @@ namespace Geoguessr
         private Button continuebtn;
         private string round;
         private bool flag = true;
-        private GameLogic gameLogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.roundScore);
             continuebtn = FindViewById<Button>(Resource.Id.continuebtn);
-
             roundview = FindViewById<TextView>(Resource.Id.roundview2);
-            this.round = "Round " + Intent.GetStringExtra("round") + "/5";
+
+            string roundst = Intent.GetStringExtra("round");
+            this.round = "Round " + roundst + "/5";
             roundview.Text = this.round;
 
-            if (Intent != null)
-            {
-                string serializedObj = Intent.GetStringExtra("gameLogic");
-                gameLogic = JsonConvert.DeserializeObject<GameLogic>(serializedObj);
-            }
-            this.round = "Round " + gameLogic.GetRoundNum() + "/5";
-            roundview.Text = this.round;
+            int roundint = int.Parse(roundst);
+            if(roundint == 5)
+                flag = false;
 
             continuebtn.SetOnClickListener(this);
             // Create your application here
@@ -47,10 +43,8 @@ namespace Geoguessr
         {
             if(flag)
             {
-                Intent intent = new Intent(this, typeof(PlayActivity));
-                string serializedObj = JsonConvert.SerializeObject(gameLogic);
-                intent.PutExtra("gameLogic", serializedObj);
-                StartActivity(intent);
+                Intent intent = new Intent();
+                Finish();
             }
             else
             {

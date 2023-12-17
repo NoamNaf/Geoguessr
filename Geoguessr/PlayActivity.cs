@@ -34,19 +34,8 @@ namespace Geoguessr
             hintbtn = FindViewById<Button>(Resource.Id.hintbtn);
             openmapbtn = FindViewById<Button>(Resource.Id.openmapbtn);
 
-            if (Intent != null)
-            {
-                string serializedObj = Intent.GetStringExtra("gameLogic");
-                gameLogic = JsonConvert.DeserializeObject<GameLogic>(serializedObj);
-            }
-            /*else
-            {
-                gameLogic = new GameLogic();
-            }
-            */
-
-            gameLogic.NextRound();
-            this.round = "Round " + gameLogic.GetRoundNum() + "/5";
+            gameLogic = new GameLogic();
+            this.round = "Round 1/5";
 
             roundview.Text = round;
 
@@ -97,9 +86,15 @@ namespace Geoguessr
         private void guessbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(RoundScoreActivity));
-            string serializedObj = JsonConvert.SerializeObject(gameLogic);
-            intent.PutExtra("gameLogic", serializedObj);
-            StartActivity(intent);
+            string rnd = gameLogic.GetRoundNum().ToString();
+            intent.PutExtra("round", rnd);
+            StartActivityForResult(intent, 0);
+        }
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            gameLogic.NextRound();
+            this.round = "Round " + gameLogic.GetRoundNum() + "/5";
+            roundview.Text = round;
         }
         public void OpenMapbtn_Click(object sender, EventArgs e)//פעם אחת הכפתור פותח את המפה על ה streetview, פעם אחרת הוא סוגר את המפה וחוזר ל streetview.
         {

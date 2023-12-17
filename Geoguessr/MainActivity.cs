@@ -17,7 +17,6 @@ namespace Geoguessr
         private Button loginOrSignUpbtn;
         private Button playbtn;
         private Button leaderboardbtn;
-        public GameLogic gameLogic;
         ISharedPreferences sp;
         Player player;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -66,9 +65,6 @@ namespace Geoguessr
         private void Playbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(PlayActivity));
-            gameLogic = new GameLogic();
-            string serializedObj = JsonConvert.SerializeObject(gameLogic);
-            intent.PutExtra("gameLogic", serializedObj);
             StartActivity(intent);
         }
 

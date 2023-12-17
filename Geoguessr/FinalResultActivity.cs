@@ -21,18 +21,11 @@ namespace Geoguessr
         private Button homescreenbtn;
         private Button leaderboard2btn;
         private Player player;
-        private GameLogic gameLogic;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.finalScore);
-
-            if (Intent != null)
-            {
-                string serializedObj = Intent.GetStringExtra("gameLogic");
-                gameLogic = JsonConvert.DeserializeObject<GameLogic>(serializedObj);
-            }
 
             finalscoreview = FindViewById<TextView>(Resource.Id.finalscoreview);
             playagainbtn = FindViewById<Button>(Resource.Id.playagainbtn);
@@ -55,9 +48,6 @@ namespace Geoguessr
             if(view == playagainbtn)
             {
                 Intent intent = new Intent(this, typeof(PlayActivity));
-                gameLogic = new GameLogic();
-                string serializedObj = JsonConvert.SerializeObject(gameLogic);
-                intent.PutExtra("gameLogic", serializedObj);
                 StartActivity(intent);
             }
             if(view == homescreenbtn)
