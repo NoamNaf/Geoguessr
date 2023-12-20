@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -12,11 +13,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Android.Gms.Maps.GoogleMap;
 
 namespace Geoguessr
 {
     [Activity(Label = "Play")]
-    public class PlayActivity : Activity, IOnMapReadyCallback
+    public class PlayActivity : Activity, IOnMapReadyCallback, IOnMapClickListener
     {
         private string round;   
         private TextView roundview;
@@ -24,10 +26,11 @@ namespace Geoguessr
         private Button hintbtn;
         private Button openmapbtn;
         private GameLogic gameLogic;
-        private GoogleMap googleMap;
+        private GoogleMap _googleMap;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.play);
             roundview = FindViewById<TextView>(Resource.Id.roundview1);
             guessbtn = FindViewById<Button>(Resource.Id.guessbtn);
@@ -48,12 +51,45 @@ namespace Geoguessr
                                     .Add(Resource.Id.map, mapFrag, "map_fragment")
                                     .Commit();
             //var mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
+
+
             mapFrag.GetMapAsync(this);
         }
-        public void OnMapReady(GoogleMap map)
+        public void OnMapReady(GoogleMap googleMap)
         {
-            // Do something with the map, i.e. add markers, move to a specific location, etc.
+            _googleMap = googleMap;
+            _googleMap.SetOnMapClickListener(this);
         }
+        public void OnMapClick(LatLng point)
+        {
+            MarkerOptions markerOptions = new MarkerOptions()
+                .SetPosition(point)
+                .SetTitle("Clicked Location")
+                .SetSnippet("Latitude: " + point.Latitude + ", Longitude: " + point.Longitude);
+
+            _googleMap.AddMarker(markerOptions);
+            Toast.MakeText(this, "Clicked at: " + point.Latitude + ", " + point.Longitude, ToastLength.Short).Show();//זמני\
+            
+            AddMarker(point);
+        }
+
+        private void AddMarker(LatLng point)
+        {
+            if (_googleMap != null)
+            {
+                LatLng location = new LatLng(point.Latitude, point.Longitude);
+
+                MarkerOptions markerOptions = new MarkerOptions()
+                    .SetPosition(location)
+                    .SetTitle("Marker Title")
+                    .SetSnippet("Marker Snippet");
+
+                _googleMap.AddMarker(markerOptions);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.NewLatLngZoom(location, 12);
+                _googleMap.MoveCamera(cameraUpdate);
+            }
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);

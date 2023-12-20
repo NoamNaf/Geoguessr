@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -37,8 +38,9 @@ namespace Geoguessr
             roundNum++;
         }
         public int RoundPoints
-        { get { return roundPoints; }
-        set { roundPoints = value; }
+        {
+            get { return roundPoints; }
+            set { roundPoints = value; }
         }
         /*public int MessureDistance(GoogleMapsShow maker, StreetView location)//מחשב את המרחק בין המרקר לנקודת streetview.
         {
