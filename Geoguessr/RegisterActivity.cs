@@ -32,8 +32,14 @@ namespace Geoguessr
         }
         public void OnClick(View v)
         {
-            Intent intent = new Intent(this, typeof(MainActivity));
-            StartActivity(intent);
+            player = new Player(newUsername.Text, newPassword.Text);
+            if(!DbHelper.IsUserValid(player))
+            {
+                DbHelper.AddPlayer(player);
+                Intent intent = new Intent(this, typeof(MainActivity));
+                StartActivity(intent);
+            }
+            Toast.MakeText(this, "Username or Password faild, please try again", ToastLength.Long).Show();
         }
         /*public bool IsAccountOK()
         {
