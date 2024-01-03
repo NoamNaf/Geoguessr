@@ -14,17 +14,18 @@ namespace Geoguessr
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
+        private TextView usernameview;
         private Button loginOrSignUpbtn;
         private Button playbtn;
         private Button leaderboardbtn;
-        ISharedPreferences sp;
-        Player player;
+        private Player player;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+            usernameview = FindViewById<TextView>(Resource.Id.usernameshow);
             loginOrSignUpbtn = FindViewById<Button>(Resource.Id.loginorsignupbtn);
             playbtn = FindViewById<Button>(Resource.Id.playbtn);
             leaderboardbtn = FindViewById<Button>(Resource.Id.leaderboardbtn1);
@@ -33,6 +34,13 @@ namespace Geoguessr
             leaderboardbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
 
             player = new Player();
+            string l = Intent.GetStringExtra("check");
+            if (Intent != null && l == "True")
+            {
+                string serializedObj = Intent.GetStringExtra("user");
+                player = JsonConvert.DeserializeObject<Player>(serializedObj);
+                usernameview.Text = "Welcome, " + player.userName;
+            }
             loginOrSignUpbtn.Click += LoginOrSignUpbtn_Click;
             playbtn.Click += Playbtn_Click;
             leaderboardbtn.SetOnClickListener(this);
@@ -41,7 +49,7 @@ namespace Geoguessr
         private void LoginOrSignUpbtn_Click(object sender, EventArgs e)
         {
             Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
-            builder.SetTitle("התרעה");
+            builder.SetTitle("Notification");
             builder.SetMessage("");
             builder.SetCancelable(true);
             builder.SetPositiveButton("Login", LoginAction);
@@ -64,8 +72,22 @@ namespace Geoguessr
 
         private void Playbtn_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(PlayActivity));
-            StartActivity(intent);
+            if(player.userName != null)
+            {
+                Intent intent = new Intent(this, typeof(PlayActivity));
+                StartActivity(intent);
+            }
+            else
+            {
+                Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+                builder.SetTitle("Notification");
+                builder.SetMessage("In oreder to play the game, you have to login. Don't have an account? Create one now for free!");
+                builder.SetCancelable(true);
+                builder.SetPositiveButton("Login", LoginAction);
+                builder.SetNegativeButton("Register", RegisterAction);
+                Android.App.AlertDialog dialog = builder.Create();
+                dialog.Show();
+            }
         }
 
         public void OnClick(Android.Views.View view)

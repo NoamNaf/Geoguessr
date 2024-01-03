@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Geoguessr
 {
-    [Table("Persons")]
+    [Table("Player")]
     public class Player
     {
         [PrimaryKey, AutoIncrement, Column("_id")]

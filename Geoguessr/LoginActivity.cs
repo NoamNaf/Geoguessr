@@ -4,6 +4,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
+using Org.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,15 +37,28 @@ namespace Geoguessr
         }
         public void OnClick(View v)
         {
-            if (loginbtn != null && password != null)
+            if (loginbtn == null || password == null)
             {
+                Toast.MakeText(this, "Please enter a legal username and password", ToastLength.Long).Show();
+                return;
+            }
+            player = new Player(username.Text, password.Text);
+            if (DbHelper.IsUserValid(player))
+            {
+                player = DbHelper.GetPlayerFromDB(player);
                 Intent intent = new Intent(this, typeof(MainActivity));
+                string serializedObj = JsonConvert.SerializeObject(player);
+                intent.PutExtra("user", serializedObj);
+
+                string l = "True";
+                intent.PutExtra("check", l);
                 StartActivity(intent);
             }
             else
             {
-                Toast.MakeText(this, "Please enter a legal username and password", ToastLength.Long).Show();
+                Toast.MakeText(this, "Username or/and password are wrong, please try again", ToastLength.Long).Show();
             }
+
         }
         /*public bool IsAccountOK()
         {

@@ -23,7 +23,7 @@ namespace Geoguessr
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.register);
-            newUsername = FindViewById<EditText>(Resource.Id.username);
+            newUsername = FindViewById<EditText>(Resource.Id.newUsername);
             newPassword = FindViewById<EditText>(Resource.Id.newPassword);
             registerbtn = FindViewById<Button>(Resource.Id.registerbtn);
             registerbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
@@ -32,14 +32,15 @@ namespace Geoguessr
         }
         public void OnClick(View v)
         {
-            player = new Player(newUsername.Text, newPassword.Text);
+            this.player = new Player(newUsername.Text, newPassword.Text);
             if(!DbHelper.IsUserValid(player))
             {
                 DbHelper.AddPlayer(player);
                 Intent intent = new Intent(this, typeof(MainActivity));
                 StartActivity(intent);
             }
-            Toast.MakeText(this, "Username or Password faild, please try again", ToastLength.Long).Show();
+            else
+                Toast.MakeText(this, "Username or Password faild, please try again", ToastLength.Long).Show();
         }
         /*public bool IsAccountOK()
         {
