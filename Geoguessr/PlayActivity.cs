@@ -27,6 +27,9 @@ namespace Geoguessr
         private Button openmapbtn;
         private GameLogic gameLogic;
         private GoogleMap _googleMap;
+        private LatLng oldMarker;
+        private MarkerOptions _markerOptions;
+        private Marker currentMarker;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -65,7 +68,8 @@ namespace Geoguessr
             MarkerOptions markerOptions = new MarkerOptions()
                 .SetPosition(point)
                 .SetTitle("Clicked Location")
-                .SetSnippet("Latitude: " + point.Latitude + ", Longitude: " + point.Longitude);
+                .SetSnippet("Latitude: " + point.Latitude + ", Longitude: " + point.Longitude)
+                .Visible(false);
 
             _googleMap.AddMarker(markerOptions);
             Toast.MakeText(this, "Clicked at: " + point.Latitude + ", " + point.Longitude, ToastLength.Short).Show();//זמני\
@@ -77,6 +81,8 @@ namespace Geoguessr
         {
             if (_googleMap != null)
             {
+                RemoveMarker();
+                
                 LatLng location = new LatLng(point.Latitude, point.Longitude);
 
                 MarkerOptions markerOptions = new MarkerOptions()
@@ -84,9 +90,17 @@ namespace Geoguessr
                     .SetTitle("Marker Title")
                     .SetSnippet("Marker Snippet");
 
-                _googleMap.AddMarker(markerOptions);
+                currentMarker = _googleMap.AddMarker(markerOptions);
                 CameraUpdate cameraUpdate = CameraUpdateFactory.NewLatLngZoom(location, 12);
                 _googleMap.MoveCamera(cameraUpdate);
+            }
+        }
+        private void RemoveMarker()
+        {
+            if (currentMarker != null)
+            {
+                currentMarker.Remove();
+                currentMarker = null;
             }
         }
 
