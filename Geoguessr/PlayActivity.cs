@@ -11,6 +11,7 @@ using Google.Android.Material.Behavior;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using static Android.Gms.Maps.GoogleMap;
@@ -20,15 +21,15 @@ namespace Geoguessr
     [Activity(Label = "Play")]
     public class PlayActivity : Activity, IOnMapReadyCallback, IOnMapClickListener
     {
+        private double distance;
         private string round;   
         private TextView roundview;
         private Button guessbtn;
         private Button hintbtn;
         private Button openmapbtn;
+        private ImageView backgroundImage;
         private GameLogic gameLogic;
         private GoogleMap _googleMap;
-        private LatLng oldMarker;
-        private MarkerOptions _markerOptions;
         private Marker currentMarker;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -39,12 +40,16 @@ namespace Geoguessr
             guessbtn = FindViewById<Button>(Resource.Id.guessbtn);
             hintbtn = FindViewById<Button>(Resource.Id.hintbtn);
             openmapbtn = FindViewById<Button>(Resource.Id.openmapbtn);
+            backgroundImage = FindViewById<ImageView>(Resource.Id.backgroundImage);
+
+            backgroundImage.SetImageResource(Resource.Drawable.timessquare);
 
             gameLogic = new GameLogic();
             this.round = "Round 1/5";
 
             roundview.Text = round;
 
+            guessbtn.Enabled = false;
             guessbtn.Click += guessbtn_Click;
             hintbtn.Click += Hintbtn_Click;
             openmapbtn.Click += OpenMapbtn_Click;
@@ -55,12 +60,13 @@ namespace Geoguessr
                                     .Commit();
             //var mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
 
-
             mapFrag.GetMapAsync(this);
         }
         public void OnMapReady(GoogleMap googleMap)
         {
             _googleMap = googleMap;
+            var mapContainer = FindViewById<FrameLayout>(Resource.Id.map);
+            mapContainer.Visibility = ViewStates.Gone;
             _googleMap.SetOnMapClickListener(this);
         }
         public void OnMapClick(LatLng point)
@@ -82,6 +88,7 @@ namespace Geoguessr
             if (_googleMap != null)
             {
                 RemoveMarker();
+                guessbtn.Enabled = true;
                 
                 LatLng location = new LatLng(point.Latitude, point.Longitude);
 
@@ -91,8 +98,9 @@ namespace Geoguessr
                     .SetSnippet("Marker Snippet");
 
                 currentMarker = _googleMap.AddMarker(markerOptions);
-                CameraUpdate cameraUpdate = CameraUpdateFactory.NewLatLngZoom(location, 12);
-                _googleMap.MoveCamera(cameraUpdate);
+
+                LatLng a = new LatLng(0.0, 0.0);
+                distance = gameLogic.MessureDistance(location, a);
             }
         }
         private void RemoveMarker()
@@ -138,6 +146,13 @@ namespace Geoguessr
             Intent intent = new Intent(this, typeof(RoundScoreActivity));
             string rnd = gameLogic.GetRoundNum().ToString();
             intent.PutExtra("round", rnd);
+
+            string disSet = distance.ToString();
+            intent.PutExtra("distance", disSet);
+
+            string points = gameLogic.UpdateScores(distance);
+            intent.PutExtra("points", points);
+
             StartActivityForResult(intent, 0);
         }
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -145,14 +160,22 @@ namespace Geoguessr
             gameLogic.NextRound();
             this.round = "Round " + gameLogic.GetRoundNum() + "/5";
             roundview.Text = round;
+            guessbtn.Enabled = false;
+            RemoveMarker();
         }
         public void OpenMapbtn_Click(object sender, EventArgs e)//פעם אחת הכפתור פותח את המפה על ה streetview, פעם אחרת הוא סוגר את המפה וחוזר ל streetview.
         {
-            
-        }
-        public void TurnOnGuessButton()//פעולה שבודקת האם אפשר להדליק את הכפתור guess, אם כן היא מדליקה את הכפתור.
-        {
-            
+            var mapContainer = FindViewById<FrameLayout>(Resource.Id.map);
+            if(mapContainer.Visibility == ViewStates.Gone)
+            {
+                mapContainer.Visibility = ViewStates.Visible;
+                backgroundImage.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                mapContainer.Visibility = ViewStates.Gone;
+                backgroundImage.Visibility = ViewStates.Gone;
+            }
         }
     }
 }

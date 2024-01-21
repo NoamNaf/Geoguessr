@@ -3,13 +3,16 @@ using Android.Content;
 using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Xamarin.Essentials;
 
 namespace Geoguessr
 {
@@ -18,7 +21,6 @@ namespace Geoguessr
         private int roundNum;
         private int roundPoints;
         private int finalPoints;
-        private int distance;
         private string hint;
         private GoogleMapsShow googleMaps;
         private StreetView streetView;
@@ -42,15 +44,23 @@ namespace Geoguessr
             get { return roundPoints; }
             set { roundPoints = value; }
         }
-        /*public int MessureDistance(GoogleMapsShow maker, StreetView location)//מחשב את המרחק בין המרקר לנקודת streetview.
+        public double MessureDistance(LatLng marker, LatLng location)//מחשב את המרחק בין המרקר לנקודת streetview.
         {
-            
-        }
-        public void UpdateScores(int roundPoints)
-        {
+            Location locationStart = new Location(marker.Latitude, marker.Longitude);
+            Location locationEnd = new Location(40.758896, -73.985130);//temp
 
+            double distance = Location.CalculateDistance(locationStart, locationEnd, DistanceUnits.Kilometers);
+            return distance;
         }
-        public string GetHint()//מקבלת את הרמז ממחלקת streetview.
+        public string UpdateScores(double distance)
+        {
+            int thisRoundPoints = 1 / (int)distance * 10000;
+            if(thisRoundPoints < 0) { thisRoundPoints = 0; }
+            if(this.roundPoints > 9975) { thisRoundPoints = 10000; }
+            roundPoints += thisRoundPoints;
+            return thisRoundPoints.ToString();
+        }
+        /*public string GetHint()//מקבלת את הרמז ממחלקת streetview.
         {
 
         }
