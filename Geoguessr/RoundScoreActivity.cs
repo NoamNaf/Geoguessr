@@ -64,7 +64,9 @@ namespace Geoguessr
             }
             else
             {
+                string finalpoints = Intent.GetStringExtra("finalpoints");
                 Intent intent = new Intent(this, typeof(FinalResultActivity));
+                intent.PutExtra("finalpoints", finalpoints);
                 StartActivity(intent);
             }
         }

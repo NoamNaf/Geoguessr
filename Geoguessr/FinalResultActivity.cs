@@ -35,7 +35,8 @@ namespace Geoguessr
             homescreenbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboard2btn.SetBackgroundResource(Resource.Drawable.rounded_corner);
 
-            finalscoreview.Text = "aa";//*
+            string finalpoints = Intent.GetStringExtra("finalpoints");
+            finalscoreview.Text = finalpoints;
 
             playagainbtn.SetOnClickListener(this);
             homescreenbtn.SetOnClickListener(this);

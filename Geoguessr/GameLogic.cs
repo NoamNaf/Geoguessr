@@ -44,6 +44,11 @@ namespace Geoguessr
             get { return roundPoints; }
             set { roundPoints = value; }
         }
+        public int FinalPoints
+        {
+            get { return finalPoints; }
+            set { finalPoints = value; }
+        }
         public double MessureDistance(LatLng marker, LatLng location)//מחשב את המרחק בין המרקר לנקודת streetview.
         {
             Location locationStart = new Location(marker.Latitude, marker.Longitude);
@@ -54,10 +59,9 @@ namespace Geoguessr
         }
         public string UpdateScores(double distance)
         {
-            int thisRoundPoints = 1 / (int)distance * 10000;
+            int thisRoundPoints = 3000 - (int)System.Math.Pow(distance, 1.1);
             if(thisRoundPoints < 0) { thisRoundPoints = 0; }
-            if(this.roundPoints > 9975) { thisRoundPoints = 10000; }
-            roundPoints += thisRoundPoints;
+            finalPoints += thisRoundPoints;
             return thisRoundPoints.ToString();
         }
         /*public string GetHint()//מקבלת את הרמז ממחלקת streetview.

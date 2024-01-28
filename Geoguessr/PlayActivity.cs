@@ -153,6 +153,10 @@ namespace Geoguessr
             string points = gameLogic.UpdateScores(distance);
             intent.PutExtra("points", points);
 
+            int finalpoints = gameLogic.FinalPoints;
+            string fp = finalpoints.ToString();
+            intent.PutExtra("finalpoints", fp);
+
             StartActivityForResult(intent, 0);
         }
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
