@@ -6,20 +6,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using AndroidX.AppCompat.View.Menu;
-using Google.Android.Material.Behavior;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using static Android.Gms.Maps.GoogleMap;
 
 namespace Geoguessr
 {
     [Activity(Label = "Play")]
-    public class PlayActivity : Activity, IOnMapReadyCallback, IOnMapClickListener
+    public class PlayActivity : Activity, IOnMapReadyCallback, IOnMapClickListener, IOnStreetViewPanoramaReadyCallback
     {
         private double distance;
         private string round;   
@@ -27,10 +21,14 @@ namespace Geoguessr
         private Button guessbtn;
         private Button hintbtn;
         private Button openmapbtn;
-        private ImageView backgroundImage;
         private GameLogic gameLogic;
         private GoogleMap _googleMap;
         private Marker currentMarker;
+        private StreetViewPanoramaView streetViewPanoramaView;
+        private StreetViewPanorama streetPanorama;
+        private LatLng latlng;
+        private const string ApiKey = "AIzaSyA2H6EpGpHaG4LU0Wkj0r2tJQkOlKkqsMg";
+        private const string BaseUrl = "https://maps.googleapis.com/maps/api/streetview";
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -40,9 +38,6 @@ namespace Geoguessr
             guessbtn = FindViewById<Button>(Resource.Id.guessbtn);
             hintbtn = FindViewById<Button>(Resource.Id.hintbtn);
             openmapbtn = FindViewById<Button>(Resource.Id.openmapbtn);
-            backgroundImage = FindViewById<ImageView>(Resource.Id.backgroundImage);
-
-            backgroundImage.SetImageResource(Resource.Drawable.timessquare);
 
             gameLogic = new GameLogic();
             this.round = "Round 1/5";
@@ -54,6 +49,12 @@ namespace Geoguessr
             hintbtn.Click += Hintbtn_Click;
             openmapbtn.Click += OpenMapbtn_Click;
 
+            streetViewPanoramaView = FindViewById<StreetViewPanoramaView>(Resource.Id.panorama);
+            streetViewPanoramaView.OnCreate(savedInstanceState);
+            while (latlng == null)
+                latlng = GetRandomPanoramicView();
+            streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
+
             var mapFrag = MapFragment.NewInstance();
             FragmentManager.BeginTransaction()
                                     .Add(Resource.Id.map, mapFrag, "map_fragment")
@@ -61,6 +62,40 @@ namespace Geoguessr
             //var mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
 
             mapFrag.GetMapAsync(this);
+        }
+        private LatLng GetRandomPanoramicView()
+        {
+            // Generate random coordinates (adjust range based on your requirements)
+            // The coordinates are around nyc only
+            double latitude = GetRandomCoordinate(40.35, 41);
+            double longitude = GetRandomCoordinate(-74.3, -73.3);
+
+            // Make API request
+            using (HttpClient client = new HttpClient())
+            {
+                string requestUrl = $"{BaseUrl}?location={latitude},{longitude}&key={ApiKey}&size=800x400";
+
+                HttpResponseMessage response = client.GetAsync(requestUrl).Result;
+
+                if (response.IsSuccessStatusCode)
+                    return new LatLng(latitude, longitude);
+                return null;
+            }
+        }
+
+        private double GetRandomCoordinate(double min, double max)
+        {
+            Random random = new Random();
+            return random.NextDouble() * (max - min) + min;
+        }
+        public void OnStreetViewPanoramaReady(StreetViewPanorama panorama)
+        {
+            this.streetPanorama = panorama;
+            streetPanorama.StreetNamesEnabled = false;
+            streetPanorama.PanningGesturesEnabled = true;
+            streetPanorama.ZoomGesturesEnabled = true;
+
+            streetPanorama.SetPosition(latlng);
         }
         public void OnMapReady(GoogleMap googleMap)
         {
@@ -78,7 +113,6 @@ namespace Geoguessr
                 .Visible(false);
 
             _googleMap.AddMarker(markerOptions);
-            Toast.MakeText(this, "Clicked at: " + point.Latitude + ", " + point.Longitude, ToastLength.Short).Show();//זמני\
             
             AddMarker(point);
         }
@@ -99,8 +133,7 @@ namespace Geoguessr
 
                 currentMarker = _googleMap.AddMarker(markerOptions);
 
-                LatLng a = new LatLng(0.0, 0.0);
-                distance = gameLogic.MessureDistance(location, a);
+                distance = gameLogic.MessureDistance(location, latlng);
             }
         }
         private void RemoveMarker()
@@ -164,8 +197,17 @@ namespace Geoguessr
             gameLogic.NextRound();
             this.round = "Round " + gameLogic.GetRoundNum() + "/5";
             roundview.Text = round;
+            var mapContainer = FindViewById<FrameLayout>(Resource.Id.map);
+            mapContainer.Visibility = ViewStates.Gone;
+            streetViewPanoramaView.Visibility = ViewStates.Visible;
             guessbtn.Enabled = false;
             RemoveMarker();
+            latlng = null;
+            while (latlng == null)
+            {
+                latlng = GetRandomPanoramicView();
+            }
+            streetPanorama.SetPosition(latlng);
         }
         public void OpenMapbtn_Click(object sender, EventArgs e)//פעם אחת הכפתור פותח את המפה על ה streetview, פעם אחרת הוא סוגר את המפה וחוזר ל streetview.
         {
@@ -173,12 +215,12 @@ namespace Geoguessr
             if(mapContainer.Visibility == ViewStates.Gone)
             {
                 mapContainer.Visibility = ViewStates.Visible;
-                backgroundImage.Visibility = ViewStates.Gone;
+                streetViewPanoramaView.Visibility = ViewStates.Gone;
             }
             else
             {
                 mapContainer.Visibility = ViewStates.Gone;
-                backgroundImage.Visibility = ViewStates.Gone;
+                streetViewPanoramaView.Visibility = ViewStates.Visible;
             }
         }
     }

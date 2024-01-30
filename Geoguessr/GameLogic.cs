@@ -52,7 +52,7 @@ namespace Geoguessr
         public double MessureDistance(LatLng marker, LatLng location)//מחשב את המרחק בין המרקר לנקודת streetview.
         {
             Location locationStart = new Location(marker.Latitude, marker.Longitude);
-            Location locationEnd = new Location(40.758896, -73.985130);//temp
+            Location locationEnd = new Location(location.Latitude, location.Longitude);
 
             double distance = Location.CalculateDistance(locationStart, locationEnd, DistanceUnits.Kilometers);
             return distance;
