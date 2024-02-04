@@ -32,8 +32,8 @@ namespace Geoguessr
             loginOrSignUpbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             playbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboardbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
-
-            player = new Player();
+            if (player == null)
+                player = new Player();
             string l = Intent.GetStringExtra("check");
             if (Intent != null && l == "True")
             {
@@ -57,7 +57,6 @@ namespace Geoguessr
             Android.App.AlertDialog dialog = builder.Create();
             dialog.Show();
         }
-
         private void LoginAction(object sender, DialogClickEventArgs e)
         {
             Intent intent = new Intent(this, typeof(LoginActivity));

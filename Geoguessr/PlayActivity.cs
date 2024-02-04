@@ -27,6 +27,7 @@ namespace Geoguessr
         private StreetViewPanoramaView streetViewPanoramaView;
         private StreetViewPanorama streetPanorama;
         private LatLng latlng;
+        private ProgressDialog progressDialog;
         private const string ApiKey = "AIzaSyA2H6EpGpHaG4LU0Wkj0r2tJQkOlKkqsMg";
         private const string BaseUrl = "https://maps.googleapis.com/maps/api/streetview";
         protected override void OnCreate(Bundle savedInstanceState)
@@ -51,9 +52,25 @@ namespace Geoguessr
 
             streetViewPanoramaView = FindViewById<StreetViewPanoramaView>(Resource.Id.panorama);
             streetViewPanoramaView.OnCreate(savedInstanceState);
-            while (latlng == null)
-                latlng = GetRandomPanoramicView();
-            streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
+
+            streetViewPanoramaView.Visibility = ViewStates.Gone;
+            latlng = GetRandomPanoramicView();
+            if(latlng == null)
+            {
+                Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+                builder.SetTitle("An error has accured in loading the panoramic view.");
+                builder.SetMessage("What do you wish to do?");
+                builder.SetCancelable(false);
+                //builder.SetPositiveButton("Try Again", TryAgainAction);
+                //builder.SetNegativeButton("Go back to main page", MainPageAction);
+                Android.App.AlertDialog dialog = builder.Create();
+                dialog.Show();
+            }
+            else
+            {
+                streetViewPanoramaView.Visibility = ViewStates.Visible;
+                streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
+            }
 
             var mapFrag = MapFragment.NewInstance();
             FragmentManager.BeginTransaction()
@@ -72,17 +89,34 @@ namespace Geoguessr
 
             // Make API request
             using (HttpClient client = new HttpClient())
-            {
+            {   
                 string requestUrl = $"{BaseUrl}?location={latitude},{longitude}&key={ApiKey}&size=800x400";
 
-                HttpResponseMessage response = client.GetAsync(requestUrl).Result;
+                HttpResponseMessage response;
+                try
+                {
+                    response = client.GetAsync(requestUrl).Result;
+                }
+                catch(Exception e)
+                {
+                    Console.Write(e.Message);
 
+                    /*streetViewPanoramaView.Visibility = ViewStates.Gone;
+                    Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+                    builder.SetTitle("Error: " + e.Message);
+                    builder.SetMessage("What do you wish to do?");
+                    builder.SetCancelable(true);
+                    builder.SetPositiveButton("Try Again", TryAgainAction);
+                    builder.SetNegativeButton("Go back to main page", MainPageAction);
+                    Android.App.AlertDialog dialog = builder.Create();
+                    dialog.Show();*/
+                    return null;
+                }
                 if (response.IsSuccessStatusCode)
                     return new LatLng(latitude, longitude);
                 return null;
             }
         }
-
         private double GetRandomCoordinate(double min, double max)
         {
             Random random = new Random();
