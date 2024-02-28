@@ -54,23 +54,12 @@ namespace Geoguessr
             streetViewPanoramaView.OnCreate(savedInstanceState);
 
             streetViewPanoramaView.Visibility = ViewStates.Gone;
-            latlng = GetRandomPanoramicView();
-            if(latlng == null)
-            {
-                Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
-                builder.SetTitle("An error has accured in loading the panoramic view.");
-                builder.SetMessage("What do you wish to do?");
-                builder.SetCancelable(false);
-                //builder.SetPositiveButton("Try Again", TryAgainAction);
-                //builder.SetNegativeButton("Go back to main page", MainPageAction);
-                Android.App.AlertDialog dialog = builder.Create();
-                dialog.Show();
-            }
-            else
-            {
-                streetViewPanoramaView.Visibility = ViewStates.Visible;
-                streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
-            }
+
+            double latitude = GetRandomCoordinate(-90, 90);
+            double longitude = GetRandomCoordinate(-90, 90);//change coordinated to all around the world
+            latlng = new LatLng(latitude, longitude);
+            streetViewPanoramaView.Visibility = ViewStates.Visible;
+            streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
 
             var mapFrag = MapFragment.NewInstance();
             FragmentManager.BeginTransaction()
@@ -79,43 +68,6 @@ namespace Geoguessr
             //var mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
 
             mapFrag.GetMapAsync(this);
-        }
-        private LatLng GetRandomPanoramicView()
-        {
-            // Generate random coordinates (adjust range based on your requirements)
-            // The coordinates are around nyc only
-            double latitude = GetRandomCoordinate(40.35, 41);
-            double longitude = GetRandomCoordinate(-74.3, -73.3);
-
-            // Make API request
-            using (HttpClient client = new HttpClient())
-            {   
-                string requestUrl = $"{BaseUrl}?location={latitude},{longitude}&key={ApiKey}&size=800x400";
-
-                HttpResponseMessage response;
-                try
-                {
-                    response = client.GetAsync(requestUrl).Result;
-                }
-                catch(Exception e)
-                {
-                    Console.Write(e.Message);
-
-                    /*streetViewPanoramaView.Visibility = ViewStates.Gone;
-                    Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
-                    builder.SetTitle("Error: " + e.Message);
-                    builder.SetMessage("What do you wish to do?");
-                    builder.SetCancelable(true);
-                    builder.SetPositiveButton("Try Again", TryAgainAction);
-                    builder.SetNegativeButton("Go back to main page", MainPageAction);
-                    Android.App.AlertDialog dialog = builder.Create();
-                    dialog.Show();*/
-                    return null;
-                }
-                if (response.IsSuccessStatusCode)
-                    return new LatLng(latitude, longitude);
-                return null;
-            }
         }
         private double GetRandomCoordinate(double min, double max)
         {
@@ -129,7 +81,7 @@ namespace Geoguessr
             streetPanorama.PanningGesturesEnabled = true;
             streetPanorama.ZoomGesturesEnabled = true;
 
-            streetPanorama.SetPosition(latlng);
+            streetPanorama.SetPosition(latlng, 10000000);
         }
         public void OnMapReady(GoogleMap googleMap)
         {
@@ -236,11 +188,7 @@ namespace Geoguessr
             streetViewPanoramaView.Visibility = ViewStates.Visible;
             guessbtn.Enabled = false;
             RemoveMarker();
-            latlng = null;
-            while (latlng == null)
-            {
-                latlng = GetRandomPanoramicView();
-            }
+            latlng = null;//change at home
             streetPanorama.SetPosition(latlng);
         }
         public void OpenMapbtn_Click(object sender, EventArgs e)//פעם אחת הכפתור פותח את המפה על ה streetview, פעם אחרת הוא סוגר את המפה וחוזר ל streetview.
