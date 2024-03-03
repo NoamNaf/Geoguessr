@@ -7,16 +7,17 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System;
-using System.Net.Http;
 using static Android.Gms.Maps.GoogleMap;
+using static Android.Gms.Maps.StreetViewPanorama;
 
 namespace Geoguessr
 {
     [Activity(Label = "Play")]
-    public class PlayActivity : Activity, IOnMapReadyCallback, IOnMapClickListener, IOnStreetViewPanoramaReadyCallback
+    public class PlayActivity : Activity, IOnMapReadyCallback, IOnMapClickListener, IOnStreetViewPanoramaReadyCallback, IOnStreetViewPanoramaChangeListener
     {
         private double distance;
-        private string round;   
+        private string round;
+        private bool firstlocation = true;
         private TextView roundview;
         private Button guessbtn;
         private Button hintbtn;
@@ -27,9 +28,6 @@ namespace Geoguessr
         private StreetViewPanoramaView streetViewPanoramaView;
         private StreetViewPanorama streetPanorama;
         private LatLng latlng;
-        private ProgressDialog progressDialog;
-        private const string ApiKey = "AIzaSyA2H6EpGpHaG4LU0Wkj0r2tJQkOlKkqsMg";
-        private const string BaseUrl = "https://maps.googleapis.com/maps/api/streetview";
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -56,7 +54,7 @@ namespace Geoguessr
             streetViewPanoramaView.Visibility = ViewStates.Gone;
 
             double latitude = GetRandomCoordinate(-90, 90);
-            double longitude = GetRandomCoordinate(-90, 90);//change coordinated to all around the world
+            double longitude = GetRandomCoordinate(-180, 180);
             latlng = new LatLng(latitude, longitude);
             streetViewPanoramaView.Visibility = ViewStates.Visible;
             streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
@@ -77,11 +75,21 @@ namespace Geoguessr
         public void OnStreetViewPanoramaReady(StreetViewPanorama panorama)
         {
             this.streetPanorama = panorama;
+            streetPanorama.SetOnStreetViewPanoramaChangeListener(this);
             streetPanorama.StreetNamesEnabled = false;
             streetPanorama.PanningGesturesEnabled = true;
             streetPanorama.ZoomGesturesEnabled = true;
 
             streetPanorama.SetPosition(latlng, 10000000);
+        }
+        public void OnStreetViewPanoramaChange(StreetViewPanoramaLocation location)
+        {
+            if (location != null && firstlocation)
+            {
+                latlng = location.Position;
+                firstlocation = false;
+                streetViewPanoramaView.Visibility = ViewStates.Visible;
+            }
         }
         public void OnMapReady(GoogleMap googleMap)
         {
@@ -184,14 +192,15 @@ namespace Geoguessr
             this.round = "Round " + gameLogic.GetRoundNum() + "/5";
             roundview.Text = round;
             var mapContainer = FindViewById<FrameLayout>(Resource.Id.map);
+            firstlocation = true;
             mapContainer.Visibility = ViewStates.Gone;
-            streetViewPanoramaView.Visibility = ViewStates.Visible;
+            streetViewPanoramaView.Visibility = ViewStates.Gone;
+            latlng = new LatLng(GetRandomCoordinate(-90, 90), GetRandomCoordinate(-180, 180));
+            streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
             guessbtn.Enabled = false;
             RemoveMarker();
-            latlng = null;//change at home
-            streetPanorama.SetPosition(latlng);
         }
-        public void OpenMapbtn_Click(object sender, EventArgs e)//פעם אחת הכפתור פותח את המפה על ה streetview, פעם אחרת הוא סוגר את המפה וחוזר ל streetview.
+        public void OpenMapbtn_Click(object sender, EventArgs e)
         {
             var mapContainer = FindViewById<FrameLayout>(Resource.Id.map);
             if(mapContainer.Visibility == ViewStates.Gone)
