@@ -11,11 +11,16 @@ using System.Text;
 using Android.Views;
 using Newtonsoft.Json;
 using System.Drawing.Printing;
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
+using static Android.Gms.Maps.GoogleMap;
+using Android.Media;
+using static Xamarin.Essentials.Platform;
 
 namespace Geoguessr
 {
     [Activity(Label = "RoundScoreActivity")]
-    public class RoundScoreActivity : Activity, View.IOnClickListener
+    public class RoundScoreActivity : Activity, View.IOnClickListener, IOnMapReadyCallback
     {
         private TextView roundview;
         private TextView distance;
@@ -23,6 +28,9 @@ namespace Geoguessr
         private Button continuebtn;
         private string round;
         private bool flag = true;
+        private GoogleMap _googleMap;
+        private LatLng latLng;
+        private LatLng googlePoint; 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -48,24 +56,78 @@ namespace Geoguessr
                 diswrite = "Points: " + getPoi;
             points.Text = diswrite;
 
+            string latitude = Intent.GetStringExtra("panoLat");
+            string longitude = Intent.GetStringExtra("panoLon");
+            latLng = new LatLng(double.Parse(latitude), double.Parse(longitude));
+
+            latitude = Intent.GetStringExtra("mapLat");
+            longitude = Intent.GetStringExtra("mapLon");
+            googlePoint = new LatLng(double.Parse(latitude), double.Parse(longitude));
+
             int roundint = int.Parse(roundst);
             if(roundint == 5)
                 flag = false;
 
             continuebtn.SetOnClickListener(this);
-            // Create your application here
+
+            var mapFrag = MapFragment.NewInstance();
+            FragmentManager.BeginTransaction()
+                                    .Add(Resource.Id.map, mapFrag, "map_fragment")
+                                    .Commit();
+            //var mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
+
+            mapFrag.GetMapAsync(this);
+        }
+        public void OnMapReady(GoogleMap googleMap)
+        {
+            _googleMap = googleMap;
+            var mapContainer = FindViewById<FrameLayout>(Resource.Id.map);
+
+            MarkerOptions markerOptions = new MarkerOptions()
+               .SetPosition(googlePoint)
+               .SetTitle("Clicked Location")
+               .SetSnippet("Latitude: " + googlePoint.Latitude + ", Longitude: " + googlePoint.Longitude)
+               .Visible(false);
+
+            _googleMap.AddMarker(markerOptions);
+
+            AddMarker(googlePoint);
+
+            MarkerOptions markerOptions1 = new MarkerOptions()
+               .SetPosition(latLng)
+               .SetTitle("Clicked Location")
+               .SetSnippet("Latitude: " + googlePoint.Latitude + ", Longitude: " + googlePoint.Longitude)
+               .Visible(false);
+
+            _googleMap.AddMarker(markerOptions1);
+
+            AddMarker(latLng);
+        }
+        private void AddMarker(LatLng point)
+        {
+            if (_googleMap != null)
+            {
+                LatLng location = new LatLng(point.Latitude, point.Longitude);
+
+                MarkerOptions markerOptions = new MarkerOptions()
+                    .SetPosition(location)
+                    .SetTitle("Marker Title")
+                    .SetSnippet("Marker Snippet");
+
+                _googleMap.AddMarker(markerOptions);
+            }
         }
         public void OnClick(Android.Views.View view)
         {
             if(flag)
             {
-                Intent intent = new Intent();
+                Android.Content.Intent intent = new Android.Content.Intent();
                 Finish();
             }
             else
             {
                 string finalpoints = Intent.GetStringExtra("finalpoints");
-                Intent intent = new Intent(this, typeof(FinalResultActivity));
+                Android.Content.Intent intent = new Android.Content.Intent(this, typeof(FinalResultActivity));
                 intent.PutExtra("finalpoints", finalpoints);
                 StartActivity(intent);
             }

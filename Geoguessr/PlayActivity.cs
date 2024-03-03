@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 using System;
 using static Android.Gms.Maps.GoogleMap;
 using static Android.Gms.Maps.StreetViewPanorama;
@@ -28,6 +29,7 @@ namespace Geoguessr
         private StreetViewPanoramaView streetViewPanoramaView;
         private StreetViewPanorama streetPanorama;
         private LatLng latlng;
+        private LatLng googlePoint;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -106,6 +108,8 @@ namespace Geoguessr
                 .SetSnippet("Latitude: " + point.Latitude + ", Longitude: " + point.Longitude)
                 .Visible(false);
 
+            googlePoint = point;
+
             _googleMap.AddMarker(markerOptions);
             
             AddMarker(point);
@@ -183,6 +187,18 @@ namespace Geoguessr
             int finalpoints = gameLogic.FinalPoints;
             string fp = finalpoints.ToString();
             intent.PutExtra("finalpoints", fp);
+
+            string latitude = latlng.Latitude.ToString();
+            intent.PutExtra("panoLat", latitude);
+            
+            string Longitude = latlng.Longitude.ToString();
+            intent.PutExtra("panoLon", Longitude);
+
+            latitude = googlePoint.Latitude.ToString();
+            intent.PutExtra("mapLat", latitude);
+
+            Longitude = googlePoint.Longitude.ToString();
+            intent.PutExtra("mapLon", Longitude);
 
             StartActivityForResult(intent, 0);
         }
