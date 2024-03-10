@@ -8,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
 using System;
+using System.Threading.Tasks;
 using static Android.Gms.Maps.GoogleMap;
 using static Android.Gms.Maps.StreetViewPanorama;
 
@@ -162,10 +163,19 @@ namespace Geoguessr
             dialog.Show();
         }
 
-        private void HintAction(object sender, DialogClickEventArgs e)//פעולה שמקבלת את מדינת מיקום ה streetview, ורושמת את המדינה במקום הכפתור, ומכבה אותו.
+        private async void HintAction(object sender, DialogClickEventArgs e)//פעולה שמקבלת את מדינת מיקום ה streetview, ורושמת את המדינה במקום הכפתור, ומכבה אותו.
         {
-            hintbtn.Enabled = false;
-            hintbtn.Text = "USA";
+            string country = await gameLogic.GetCountryFromCoordinates(latlng.Latitude, latlng.Longitude);
+
+            if (!string.IsNullOrEmpty(country))
+            {
+                hintbtn.Enabled = false;
+                hintbtn.Text = country;
+            }
+            else
+            {
+                Console.WriteLine("Unable to determine the country for the given coordinates.");
+            }
         }
 
         private void CancelAction(object sender, DialogClickEventArgs e)
@@ -215,6 +225,8 @@ namespace Geoguessr
             streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
             guessbtn.Enabled = false;
             RemoveMarker();
+            hintbtn.Enabled = true;
+            hintbtn.Text = "Hint";
         }
         public void OpenMapbtn_Click(object sender, EventArgs e)
         {

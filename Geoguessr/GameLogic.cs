@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace Geoguessr
@@ -69,5 +70,30 @@ namespace Geoguessr
 
         }
         */
+        public async Task<string> GetCountryFromCoordinates(double latitude, double longitude)
+        {
+            try
+            {
+                var placemarks = await Geocoding.GetPlacemarksAsync(latitude, longitude);
+                var placemark = placemarks?.FirstOrDefault();
+
+                if (placemark != null)
+                {
+                    return placemark.CountryName;
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+                Console.WriteLine($"Feature not supported: {fnsEx.Message}");
+            }
+            catch (System.Exception ex)
+            {
+                // Handle other exceptions
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+            return null;
+        }
     }
 }
