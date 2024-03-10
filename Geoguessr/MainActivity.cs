@@ -8,6 +8,7 @@ using Android.Content;
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using System.Windows.Input;
 
 namespace Geoguessr
 {
@@ -15,7 +16,8 @@ namespace Geoguessr
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
         private TextView usernameview;
-        private Button loginOrSignUpbtn;
+        private Button loginbtn;
+        private Button signupbtn;
         private Button playbtn;
         private Button leaderboardbtn;
         private Player player;
@@ -25,48 +27,49 @@ namespace Geoguessr
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+            loginbtn = FindViewById<Button>(Resource.Id.loginbtn);
+            signupbtn = FindViewById<Button>(Resource.Id.signupbtn);
             usernameview = FindViewById<TextView>(Resource.Id.usernameshow);
-            loginOrSignUpbtn = FindViewById<Button>(Resource.Id.loginorsignupbtn);
             playbtn = FindViewById<Button>(Resource.Id.playbtn);
             leaderboardbtn = FindViewById<Button>(Resource.Id.leaderboardbtn1);
-            loginOrSignUpbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             playbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboardbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             if (player == null)
                 player = new Player();
+
             string l = Intent.GetStringExtra("check");
             if (Intent != null && l == "True")
             {
                 string serializedObj = Intent.GetStringExtra("user");
                 player = JsonConvert.DeserializeObject<Player>(serializedObj);
                 usernameview.Text = "Welcome, " + player.userName;
+                loginbtn.Visibility = ViewStates.Invisible;
+                signupbtn.Text = "Sign Out";
             }
-            loginOrSignUpbtn.Click += LoginOrSignUpbtn_Click;
+            loginbtn.Click += Loginbtn_Click;
+            signupbtn.Click += SignInbtn_Click;
             playbtn.Click += Playbtn_Click;
             leaderboardbtn.SetOnClickListener(this);
         }
-
-        private void LoginOrSignUpbtn_Click(object sender, EventArgs e)
-        {
-            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
-            builder.SetTitle("Notification");
-            builder.SetMessage("");
-            builder.SetCancelable(true);
-            builder.SetPositiveButton("Login", LoginAction);
-            builder.SetNegativeButton("Register", RegisterAction);
-            Android.App.AlertDialog dialog = builder.Create();
-            dialog.Show();
-        }
-        private void LoginAction(object sender, DialogClickEventArgs e)
+        private void Loginbtn_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(LoginActivity));
             StartActivity(intent);
         }
-
-        private void RegisterAction(object sender, DialogClickEventArgs e)
+        private void SignInbtn_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(RegisterActivity));
-            StartActivity(intent);
+            if(player.userName == null)
+            {
+                Intent intent = new Intent(this, typeof(RegisterActivity));
+                StartActivity(intent);
+            }
+            else
+            {
+                Intent intent = new Intent(this, typeof(MainActivity));
+                string l = "null";
+                intent.PutExtra("check", l);
+                StartActivity(intent);
+            }
         }
 
         private void Playbtn_Click(object sender, EventArgs e)
@@ -82,8 +85,8 @@ namespace Geoguessr
                 builder.SetTitle("Notification");
                 builder.SetMessage("In oreder to play the game, you have to login. Don't have an account? Create one now for free!");
                 builder.SetCancelable(true);
-                builder.SetPositiveButton("Login", LoginAction);
-                builder.SetNegativeButton("Register", RegisterAction);
+                builder.SetPositiveButton("Login", Loginbtn_Click);
+                builder.SetNegativeButton("Register", SignInbtn_Click);
                 Android.App.AlertDialog dialog = builder.Create();
                 dialog.Show();
             }

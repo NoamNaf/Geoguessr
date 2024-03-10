@@ -8,7 +8,32 @@
     android:orientation="vertical"
     android:background="@drawable/geoguessr_backrgound">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Login"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:id="@+id/loginbtn"/>
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sign Up"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:id="@+id/signupbtn"/>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,18 +45,6 @@
             android:layout_height="wrap_content"
             android:text="Welcome, Guest"
             android:id="@+id/usernameshow"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:text="Login/Sign Up"
-           android:layout_marginTop="10dip"
-           android:id="@+id/loginorsignupbtn"
-           android:textSize="10sp"
-           android:textStyle="bold"
-           android:layout_gravity="right"
-           android:padding="10dp"
-            />
 
         <TextView
             android:layout_width="match_parent"
