@@ -20,7 +20,6 @@ namespace Geoguessr
         private TextView bestscoreview;
         private Button playagainbtn;
         private Button homescreenbtn;
-        private Button leaderboard2btn;
         private Player player;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -32,10 +31,8 @@ namespace Geoguessr
             bestscoreview = FindViewById<TextView> (Resource.Id.bestscoreview);
             playagainbtn = FindViewById<Button>(Resource.Id.playagainbtn);
             homescreenbtn = FindViewById<Button>(Resource.Id.mainpagebtn);
-            leaderboard2btn = FindViewById<Button>(Resource.Id.leaderboardbtn2);
             playagainbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             homescreenbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
-            leaderboard2btn.SetBackgroundResource(Resource.Drawable.rounded_corner);
 
             string finalpoints = Intent.GetStringExtra("finalpoints");
             finalscoreview.Text = finalpoints;
@@ -46,6 +43,7 @@ namespace Geoguessr
             if(int.Parse(finalpoints) > player.bestScore)
             {
                 DbHelper.NewTopScore(player, int.Parse(finalpoints));
+                player.bestScore = int.Parse(finalpoints);
                 Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
                 builder.SetTitle("New Personal Record!!!");
                 builder.SetMessage("Click anywhere on the screen to close the alert");
@@ -58,7 +56,6 @@ namespace Geoguessr
 
             playagainbtn.SetOnClickListener(this);
             homescreenbtn.SetOnClickListener(this);
-            leaderboard2btn.SetOnClickListener(this);
         }
         public void OnClick(Android.Views.View view)
         {
@@ -78,11 +75,6 @@ namespace Geoguessr
                 string l = "True";
                 intent.PutExtra("check", l);
 
-                StartActivity(intent);
-            }
-            if(view ==  leaderboard2btn)
-            {
-                Intent intent = new Intent(this, typeof(LeaderboardActivity));
                 StartActivity(intent);
             }
         }

@@ -157,7 +157,7 @@ namespace Geoguessr
         {
             Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
             builder.SetTitle("Warning");
-            builder.SetMessage("Are you sure you need a hint? Getting a hint will hurt this round's final score.");
+            builder.SetMessage("Are you sure you need a hint? Getting a hint will decrese this round's final score by 1000 points.");
             builder.SetCancelable(true);
             builder.SetPositiveButton("Give me a hint", HintAction);
             builder.SetNegativeButton("Nevermind", CancelAction);
@@ -167,6 +167,7 @@ namespace Geoguessr
 
         private async void HintAction(object sender, DialogClickEventArgs e)//פעולה שמקבלת את מדינת מיקום ה streetview, ורושמת את המדינה במקום הכפתור, ומכבה אותו.
         {
+            gameLogic.SetIsHintUsed();
             string country = await gameLogic.GetCountryFromCoordinates(latlng.Latitude, latlng.Longitude);
 
             if (!string.IsNullOrEmpty(country))
@@ -232,6 +233,8 @@ namespace Geoguessr
             RemoveMarker();
             hintbtn.Enabled = true;
             hintbtn.Text = "Hint";
+            if (gameLogic.GetIsHintUsed())
+                gameLogic.SetIsHintUsed();
         }
         public void OpenMapbtn_Click(object sender, EventArgs e)
         {

@@ -22,9 +22,7 @@ namespace Geoguessr
         private int roundNum;
         private int roundPoints;
         private int finalPoints;
-        private string hint;
-        private GoogleMapsShow googleMaps;
-        private StreetView streetView;
+        private bool isHintUsed = false;
 
         public GameLogic()
         {
@@ -50,18 +48,31 @@ namespace Geoguessr
             get { return finalPoints; }
             set { finalPoints = value; }
         }
-        public double MessureDistance(LatLng marker, LatLng location)
+        public bool GetIsHintUsed()
+        {
+            return isHintUsed;
+        }
+        public void SetIsHintUsed()
+        {
+            if(isHintUsed)
+                isHintUsed = false;
+            else
+                isHintUsed = true;
+        }
+        public int MessureDistance(LatLng marker, LatLng location)
         {
             Location locationStart = new Location(marker.Latitude, marker.Longitude);
             Location locationEnd = new Location(location.Latitude, location.Longitude);
 
-            double distance = Location.CalculateDistance(locationStart, locationEnd, DistanceUnits.Kilometers);
+            int distance = (int)Location.CalculateDistance(locationStart, locationEnd, DistanceUnits.Kilometers);
             return distance;
         }
         public string UpdateScores(double distance)
         {
             int thisRoundPoints = 3000 - (int)System.Math.Pow(distance, 1.1);
-            if(thisRoundPoints < 0) { thisRoundPoints = 0; }
+            if (isHintUsed)
+                thisRoundPoints -= 1000;
+            if (thisRoundPoints < 0) { thisRoundPoints = 0; }
             finalPoints += thisRoundPoints;
             return thisRoundPoints.ToString();
         }
