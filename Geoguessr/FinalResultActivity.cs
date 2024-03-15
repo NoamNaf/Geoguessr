@@ -17,6 +17,7 @@ namespace Geoguessr
     public class FinalResultActivity : Activity, View.IOnClickListener
     {
         private TextView finalscoreview;
+        private TextView bestscoreview;
         private Button playagainbtn;
         private Button homescreenbtn;
         private Button leaderboard2btn;
@@ -28,6 +29,7 @@ namespace Geoguessr
             SetContentView(Resource.Layout.finalScore);
 
             finalscoreview = FindViewById<TextView>(Resource.Id.finalscoreview);
+            bestscoreview = FindViewById<TextView> (Resource.Id.bestscoreview);
             playagainbtn = FindViewById<Button>(Resource.Id.playagainbtn);
             homescreenbtn = FindViewById<Button>(Resource.Id.mainpagebtn);
             leaderboard2btn = FindViewById<Button>(Resource.Id.leaderboardbtn2);
@@ -37,6 +39,14 @@ namespace Geoguessr
 
             string finalpoints = Intent.GetStringExtra("finalpoints");
             finalscoreview.Text = finalpoints;
+
+            string serializedObj = Intent.GetStringExtra("user");
+            player = JsonConvert.DeserializeObject<Player>(serializedObj);
+
+            if(int.Parse(finalpoints) > player.bestScore)
+                DbHelper.NewTopScore(player, int.Parse(finalpoints));
+            string bestscore = player.bestScore.ToString();
+            bestscoreview.Text = "Best Score: " + bestscore;
 
             playagainbtn.SetOnClickListener(this);
             homescreenbtn.SetOnClickListener(this);
@@ -49,11 +59,19 @@ namespace Geoguessr
             if(view == playagainbtn)
             {
                 Intent intent = new Intent(this, typeof(PlayActivity));
+                string serializedObj = JsonConvert.SerializeObject(player);
+                intent.PutExtra("user", serializedObj);
                 StartActivity(intent);
             }
             if(view == homescreenbtn)
             {
                 Intent intent = new Intent(this, typeof(MainActivity));
+                string serializedObj = JsonConvert.SerializeObject(player);
+                intent.PutExtra("user", serializedObj);
+
+                string l = "True";
+                intent.PutExtra("check", l);
+
                 StartActivity(intent);
             }
             if(view ==  leaderboard2btn)

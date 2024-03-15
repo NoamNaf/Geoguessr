@@ -40,11 +40,16 @@ namespace Geoguessr
             var users = database.Query<Player>(strsql);
             return users[0];
         }
-        public static void NewTopScore(Player player)
+        public static void NewTopScore(Player player, int points)
         {
-            string strsql = string.Format($"UPDATE * SET bestScore='{player.bestScore}' WHERE userName='{player.userName}' AND password='{player.password}')");
-            var users = database.Query<Player>(strsql);
-            var user = users[0];
+            string strsql = string.Format($"UPDATE Player SET bestScore='{points}' WHERE userName='{player.userName}' AND password='{player.password}'");
+            database.Execute(strsql);
+        }
+        public static List<Player> GetTopPlayers()
+        {
+            string strsql = "SELECT * FROM Player ORDER BY bestScore DESC LIMIT 5";
+            var topPlayers = database.Query<Player>(strsql);
+            return topPlayers;
         }
     }
 }   

@@ -30,7 +30,8 @@ namespace Geoguessr
         private bool flag = true;
         private GoogleMap _googleMap;
         private LatLng latLng;
-        private LatLng googlePoint; 
+        private LatLng googlePoint;
+        private Player player;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -40,6 +41,9 @@ namespace Geoguessr
             distance = FindViewById<TextView>(Resource.Id.distanceview);
             roundview = FindViewById<TextView>(Resource.Id.roundview2);
             points = FindViewById<TextView>(Resource.Id.pointsview);
+
+            string serializedObj = Intent.GetStringExtra("user");
+            player = JsonConvert.DeserializeObject<Player>(serializedObj);
 
             string roundst = Intent.GetStringExtra("round");
             this.round = "Round " + roundst + "/5";
@@ -129,6 +133,10 @@ namespace Geoguessr
                 string finalpoints = Intent.GetStringExtra("finalpoints");
                 Android.Content.Intent intent = new Android.Content.Intent(this, typeof(FinalResultActivity));
                 intent.PutExtra("finalpoints", finalpoints);
+
+                string serializedObj = JsonConvert.SerializeObject(player);
+                intent.PutExtra("user", serializedObj);
+
                 StartActivity(intent);
             }
         }

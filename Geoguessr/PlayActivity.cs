@@ -31,6 +31,7 @@ namespace Geoguessr
         private StreetViewPanorama streetPanorama;
         private LatLng latlng;
         private LatLng googlePoint;
+        private Player player;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,6 +45,9 @@ namespace Geoguessr
             gameLogic = new GameLogic();
             this.round = "Round 1/5";
 
+            string serializedObj = Intent.GetStringExtra("user");
+            player = JsonConvert.DeserializeObject<Player>(serializedObj);
+
             roundview.Text = round;
 
             guessbtn.Enabled = false;
@@ -56,9 +60,7 @@ namespace Geoguessr
 
             streetViewPanoramaView.Visibility = ViewStates.Gone;
 
-            double latitude = GetRandomCoordinate(-90, 90);
-            double longitude = GetRandomCoordinate(-180, 180);
-            latlng = new LatLng(latitude, longitude);
+            latlng = new LatLng(GetRandomCoordinate(-90, 90), GetRandomCoordinate(-180, 180));
             streetViewPanoramaView.Visibility = ViewStates.Visible;
             streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
 
@@ -209,6 +211,9 @@ namespace Geoguessr
 
             Longitude = googlePoint.Longitude.ToString();
             intent.PutExtra("mapLon", Longitude);
+
+            string serializedObj = JsonConvert.SerializeObject(player);
+            intent.PutExtra("user", serializedObj);
 
             StartActivityForResult(intent, 0);
         }

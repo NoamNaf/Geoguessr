@@ -34,8 +34,6 @@ namespace Geoguessr
             leaderboardbtn = FindViewById<Button>(Resource.Id.leaderboardbtn1);
             playbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboardbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
-            if (player == null)
-                player = new Player();
 
             string l = Intent.GetStringExtra("check");
             if (Intent != null && l == "True")
@@ -46,6 +44,9 @@ namespace Geoguessr
                 loginbtn.Visibility = ViewStates.Invisible;
                 signupbtn.Text = "Sign Out";
             }
+            else
+                player = new Player();
+
             loginbtn.Click += Loginbtn_Click;
             signupbtn.Click += SignInbtn_Click;
             playbtn.Click += Playbtn_Click;
@@ -77,6 +78,8 @@ namespace Geoguessr
             if(player.userName != null)
             {
                 Intent intent = new Intent(this, typeof(PlayActivity));
+                string serializedObj = JsonConvert.SerializeObject(player);
+                intent.PutExtra("user", serializedObj);
                 StartActivity(intent);
             }
             else
@@ -98,6 +101,10 @@ namespace Geoguessr
             {
                 Intent intent = new Intent(this, typeof(PlayActivity));
                 intent.PutExtra("round", 1);
+
+                string serializedObj = JsonConvert.SerializeObject(player);
+                intent.PutExtra("user", serializedObj);
+
                 StartActivity(intent);
             }
             if(leaderboardbtn == view)
