@@ -29,11 +29,9 @@ namespace Geoguessr
             loginbtn = FindViewById<Button>(Resource.Id.loginbtn);
             username = FindViewById<EditText>(Resource.Id.username);
             password = FindViewById<EditText>(Resource.Id.password);
-            //goRegister = FindViewById<Button>(Resource.Id.goRegisterbtn);
 
             loginbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             loginbtn.SetOnClickListener(this);
-            // Create your application here
         }
         public void OnClick(View v)
         {
@@ -60,10 +58,5 @@ namespace Geoguessr
             }
 
         }
-        /*public bool IsAccountOK()
-        {
-
-        }
-        */
     }
 }

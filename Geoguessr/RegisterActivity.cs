@@ -28,7 +28,6 @@ namespace Geoguessr
             registerbtn = FindViewById<Button>(Resource.Id.registerbtn);
             registerbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             registerbtn.SetOnClickListener(this);
-            // Create your application here
         }
         public void OnClick(View v)
         {
@@ -37,16 +36,12 @@ namespace Geoguessr
             {
                 DbHelper.AddPlayer(player);
                 Intent intent = new Intent(this, typeof(MainActivity));
+                string text = "Register";
+                intent.PutExtra("Register", text);
                 StartActivity(intent);
             }
             else
                 Toast.MakeText(this, "Username or Password faild, please try again", ToastLength.Long).Show();
         }
-        /*public bool IsAccountOK()
-        {
-
-        }
-        */
-        
     }
 }

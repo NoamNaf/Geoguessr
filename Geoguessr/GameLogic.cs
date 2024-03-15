@@ -50,7 +50,7 @@ namespace Geoguessr
             get { return finalPoints; }
             set { finalPoints = value; }
         }
-        public double MessureDistance(LatLng marker, LatLng location)//מחשב את המרחק בין המרקר לנקודת streetview.
+        public double MessureDistance(LatLng marker, LatLng location)
         {
             Location locationStart = new Location(marker.Latitude, marker.Longitude);
             Location locationEnd = new Location(location.Latitude, location.Longitude);
@@ -65,11 +65,6 @@ namespace Geoguessr
             finalPoints += thisRoundPoints;
             return thisRoundPoints.ToString();
         }
-        /*public string GetHint()//מקבלת את הרמז ממחלקת streetview.
-        {
-
-        }
-        */
         public async Task<string> GetCountryFromCoordinates(double latitude, double longitude)
         {
             try

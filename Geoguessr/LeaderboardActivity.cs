@@ -25,16 +25,49 @@ namespace Geoguessr
 
             returnbtn.SetOnClickListener(this);
 
-            // Create your application here
+            TextView[] rankTextViews = new TextView[5];
+            TextView[] nameTextViews = new TextView[5];
+            TextView[] scoreTextViews = new TextView[5];
+
+            rankTextViews[0] = FindViewById<TextView>(Resource.Id.r1rank);
+            rankTextViews[1] = FindViewById<TextView>(Resource.Id.r2rank);
+            rankTextViews[2] = FindViewById<TextView>(Resource.Id.r3rank);
+            rankTextViews[3] = FindViewById<TextView>(Resource.Id.r4rank);
+            rankTextViews[4] = FindViewById<TextView>(Resource.Id.r5rank);
+
+            nameTextViews[0] = FindViewById<TextView>(Resource.Id.r1name);
+            nameTextViews[1] = FindViewById<TextView>(Resource.Id.r2name);
+            nameTextViews[2] = FindViewById<TextView>(Resource.Id.r3name);
+            nameTextViews[3] = FindViewById<TextView>(Resource.Id.r4name);
+            nameTextViews[4] = FindViewById<TextView>(Resource.Id.r5name);
+
+            scoreTextViews[0] = FindViewById<TextView>(Resource.Id.r1score);
+            scoreTextViews[1] = FindViewById<TextView>(Resource.Id.r2score);
+            scoreTextViews[2] = FindViewById<TextView>(Resource.Id.r3score);
+            scoreTextViews[3] = FindViewById<TextView>(Resource.Id.r4score);
+            scoreTextViews[4] = FindViewById<TextView>(Resource.Id.r5score);
+
+            List<Player> topPlayers = DbHelper.GetTopPlayers();
+
+            for (int i = 0; i < 5; i++)
+            {
+                if (i < topPlayers.Count)
+                {
+                    nameTextViews[i].Text = topPlayers[i].userName;
+                    scoreTextViews[i].Text = topPlayers[i].bestScore.ToString();
+                }
+                else
+                {
+                    rankTextViews[i].Visibility = ViewStates.Gone;
+                    nameTextViews[i].Visibility = ViewStates.Gone;
+                    scoreTextViews[i].Visibility = ViewStates.Gone;
+                }
+            }
         }
         public void OnClick(Android.Views.View view)
         {
-            Intent intent = new Intent(this, typeof(MainActivity));
-            StartActivity(intent);
-        }
-        private void GetInformationFromDB(int rank)//פעולה שמקבלת דרגה מטבלת הנתונים, ומחזירה את המשתמש עם כמות הנקודות, לפי המבוקש.
-        {
-
+            Intent intent = new Intent();
+            Finish();
         }
     }
 }

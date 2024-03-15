@@ -44,15 +44,21 @@ namespace Geoguessr
             player = JsonConvert.DeserializeObject<Player>(serializedObj);
 
             if(int.Parse(finalpoints) > player.bestScore)
+            {
                 DbHelper.NewTopScore(player, int.Parse(finalpoints));
+                Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+                builder.SetTitle("New Personal Record!!!");
+                builder.SetMessage("Click anywhere on the screen to close the alert");
+                builder.SetCancelable(true);
+                Android.App.AlertDialog dialog = builder.Create();
+                dialog.Show();
+            }
             string bestscore = player.bestScore.ToString();
             bestscoreview.Text = "Best Score: " + bestscore;
 
             playagainbtn.SetOnClickListener(this);
             homescreenbtn.SetOnClickListener(this);
             leaderboard2btn.SetOnClickListener(this);
-
-            // Create your application here
         }
         public void OnClick(Android.Views.View view)
         {

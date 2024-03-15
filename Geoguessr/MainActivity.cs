@@ -25,7 +25,6 @@ namespace Geoguessr
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             loginbtn = FindViewById<Button>(Resource.Id.loginbtn);
             signupbtn = FindViewById<Button>(Resource.Id.signupbtn);
@@ -34,6 +33,10 @@ namespace Geoguessr
             leaderboardbtn = FindViewById<Button>(Resource.Id.leaderboardbtn1);
             playbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboardbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
+
+            string register = Intent.GetStringExtra("Register");
+            if(register != null )
+                Toast.MakeText(this, "Account successfully created", ToastLength.Long).Show();
 
             string l = Intent.GetStringExtra("check");
             if (Intent != null && l == "True")

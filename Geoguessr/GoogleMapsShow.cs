@@ -30,18 +30,5 @@ namespace Geoguessr
         {
             return longitude;
         }
-        /*public void PlaceMaker(string location || int latitude, int longitude)//מקבל מקום שהמשתמש לחץ את המפה, שומר את המיקום, ושם מרקר על המפה.
-        {
-
-        }
-        public string ReturnLocation()//מחזיר את מקום המרקר אם יש, אחר מחזיר 0
-        {
-
-        }
-        private bool IsMarker()//בודק האם ישנו מרקר מסומן על המפה. הפעולה נקראת מ ReturnLocation.
-        {
-
-        }
-        */
     }
 }
