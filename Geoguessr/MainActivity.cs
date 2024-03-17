@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Input;
+using Android.Gms.Common.Data;
 
 namespace Geoguessr
 {
@@ -20,6 +21,7 @@ namespace Geoguessr
         private Button signupbtn;
         private Button playbtn;
         private Button leaderboardbtn;
+        private Button tutorial;
         private Player player;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -31,8 +33,10 @@ namespace Geoguessr
             usernameview = FindViewById<TextView>(Resource.Id.usernameshow);
             playbtn = FindViewById<Button>(Resource.Id.playbtn);
             leaderboardbtn = FindViewById<Button>(Resource.Id.leaderboardbtn1);
+            tutorial = FindViewById<Button>(Resource.Id.tutorial);
             playbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
             leaderboardbtn.SetBackgroundResource(Resource.Drawable.rounded_corner);
+            tutorial.SetBackgroundResource(Resource.Drawable.rounded_corner);
 
             string register = Intent.GetStringExtra("Register");
             if(register != null )
@@ -54,6 +58,7 @@ namespace Geoguessr
             signupbtn.Click += SignInbtn_Click;
             playbtn.Click += Playbtn_Click;
             leaderboardbtn.SetOnClickListener(this);
+            tutorial.Click += Tutorial_Click;
         }
         private void Loginbtn_Click(object sender, EventArgs e)
         {
@@ -97,7 +102,11 @@ namespace Geoguessr
                 dialog.Show();
             }
         }
-
+        private void Tutorial_Click(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(TutorialActivity));
+            StartActivityForResult(intent, 0);
+        }
         public void OnClick(Android.Views.View view)
         {
             if(playbtn == view)
