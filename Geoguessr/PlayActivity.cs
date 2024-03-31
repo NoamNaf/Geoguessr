@@ -17,9 +17,12 @@ namespace Geoguessr
     [Activity(Label = "Play")]
     public class PlayActivity : Activity, IOnMapReadyCallback, IOnMapClickListener, IOnStreetViewPanoramaReadyCallback, IOnStreetViewPanoramaChangeListener
     {
+        private double latitude;
+        private double longitude;
         private double distance;
         private string round;
         private bool firstlocation = true;
+        private bool isLatLngOk = false;
         private TextView roundview;
         private Button guessbtn;
         private Button hintbtn;
@@ -60,7 +63,16 @@ namespace Geoguessr
 
             streetViewPanoramaView.Visibility = ViewStates.Gone;
 
-            latlng = new LatLng(GetRandomCoordinate(-90, 90), GetRandomCoordinate(-180, 180));
+            while (!isLatLngOk)
+            {
+                latitude = GetRandomCoordinate(-60, 70);
+                longitude = GetRandomCoordinate(-130, 150);
+                if ((latitude > -60 && latitude < -10 && longitude > 15 && longitude < 63) || (latitude > -60 && latitude < -8 && longitude > 60 && longitude < 95) || (latitude > -60 && latitude < 0 && longitude > -30 && longitude < -15))
+                    isLatLngOk = false;
+                else
+                    isLatLngOk = true;
+            }
+            latlng = new LatLng(GetRandomCoordinate(-60, 70), GetRandomCoordinate(-130, 150));
             streetViewPanoramaView.Visibility = ViewStates.Visible;
             streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
 
@@ -85,7 +97,7 @@ namespace Geoguessr
             streetPanorama.PanningGesturesEnabled = true;
             streetPanorama.ZoomGesturesEnabled = true;
 
-            streetPanorama.SetPosition(latlng, 10000000);
+            streetPanorama.SetPosition(latlng, 1500000);
         }
         public void OnStreetViewPanoramaChange(StreetViewPanoramaLocation location)
         {
@@ -227,7 +239,17 @@ namespace Geoguessr
             firstlocation = true;
             mapContainer.Visibility = ViewStates.Gone;
             streetViewPanoramaView.Visibility = ViewStates.Gone;
-            latlng = new LatLng(GetRandomCoordinate(-90, 90), GetRandomCoordinate(-180, 180));
+            isLatLngOk = false;
+            while (!isLatLngOk)
+            {
+                latitude = GetRandomCoordinate(-60, 70);
+                longitude = GetRandomCoordinate(-130, 150);
+                if ((latitude > -60 && latitude < -10 && longitude > 15 && longitude < 63) || (latitude > -60 && latitude < -8 && longitude > 60 && longitude < 95) || (latitude > -60 && latitude < 0 && longitude > -30 && longitude < -15))
+                    isLatLngOk = false;
+                else
+                    isLatLngOk = true;
+            }
+            latlng = new LatLng(latitude, longitude);
             streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
             guessbtn.Enabled = false;
             RemoveMarker();

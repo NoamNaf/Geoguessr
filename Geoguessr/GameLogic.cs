@@ -69,7 +69,7 @@ namespace Geoguessr
         }
         public string UpdateScores(double distance)
         {
-            int thisRoundPoints = 3000 - (int)System.Math.Pow(distance, 1.1);
+            int thisRoundPoints = 5000 - (int)System.Math.Pow(distance, 1.05);
             if (isHintUsed)
                 thisRoundPoints -= 1000;
             if (thisRoundPoints < 0) { thisRoundPoints = 0; }
