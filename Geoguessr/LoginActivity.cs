@@ -19,7 +19,6 @@ namespace Geoguessr
         private EditText username;
         private EditText password;
         private Button loginbtn;
-        private Button goRegister;
         private Player player;
         protected override void OnCreate(Bundle savedInstanceState)
         {

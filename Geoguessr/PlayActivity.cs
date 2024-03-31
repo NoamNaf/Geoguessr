@@ -8,7 +8,6 @@ using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
 using System;
-using System.Threading.Tasks;
 using static Android.Gms.Maps.GoogleMap;
 using static Android.Gms.Maps.StreetViewPanorama;
 
@@ -67,7 +66,7 @@ namespace Geoguessr
             {
                 latitude = GetRandomCoordinate(-60, 70);
                 longitude = GetRandomCoordinate(-130, 150);
-                if ((latitude > -60 && latitude < -10 && longitude > 15 && longitude < 63) || (latitude > -60 && latitude < -8 && longitude > 60 && longitude < 95) || (latitude > -60 && latitude < 0 && longitude > -30 && longitude < -15))
+                if ((latitude > -60 && latitude < -10 && longitude > 15 && longitude < 63) || (latitude > -60 && latitude < -8 && longitude > 60 && longitude < 95) || (latitude > -60 && latitude < 0 && longitude > -30 && longitude < -15) || (latitude > 15 && latitude < -60 && longitude > -130 && longitude < -80))
                     isLatLngOk = false;
                 else
                     isLatLngOk = true;
@@ -157,7 +156,6 @@ namespace Geoguessr
                 currentMarker = null;
             }
         }
-
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -188,9 +186,7 @@ namespace Geoguessr
                 hintbtn.Text = country;
             }
             else
-            {
-                Console.WriteLine("Unable to determine the country for the given coordinates.");
-            }
+                Toast.MakeText(this, "Unable to determine the country for the given coordinates.", ToastLength.Long).Show();
         }
 
         private void CancelAction(object sender, DialogClickEventArgs e)
@@ -233,26 +229,32 @@ namespace Geoguessr
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             gameLogic.NextRound();
+
             this.round = "Round " + gameLogic.GetRoundNum() + "/5";
             roundview.Text = round;
+
             var mapContainer = FindViewById<FrameLayout>(Resource.Id.map);
+
             firstlocation = true;
             mapContainer.Visibility = ViewStates.Gone;
             streetViewPanoramaView.Visibility = ViewStates.Gone;
+
             isLatLngOk = false;
             while (!isLatLngOk)
             {
                 latitude = GetRandomCoordinate(-60, 70);
                 longitude = GetRandomCoordinate(-130, 150);
-                if ((latitude > -60 && latitude < -10 && longitude > 15 && longitude < 63) || (latitude > -60 && latitude < -8 && longitude > 60 && longitude < 95) || (latitude > -60 && latitude < 0 && longitude > -30 && longitude < -15))
+                if ((latitude > -60 && latitude < -10 && longitude > 15 && longitude < 63) || (latitude > -60 && latitude < -8 && longitude > 60 && longitude < 95) || (latitude > -60 && latitude < 0 && longitude > -30 && longitude < -15) || (latitude > 15 && latitude < -60 && longitude > -130 && longitude < -80))
                     isLatLngOk = false;
                 else
                     isLatLngOk = true;
             }
             latlng = new LatLng(latitude, longitude);
             streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
+
             guessbtn.Enabled = false;
             RemoveMarker();
+
             hintbtn.Enabled = true;
             hintbtn.Text = "Hint";
             if (gameLogic.GetIsHintUsed())
