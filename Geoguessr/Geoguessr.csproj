@@ -63,7 +63,6 @@
     <Compile Include="DbHelper.cs" />
     <Compile Include="FinalResultActivity.cs" />
     <Compile Include="GameLogic.cs" />
-    <Compile Include="GoogleMapsShow.cs" />
     <Compile Include="LeaderboardActivity.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoundScoreActivity.cs" />
-    <Compile Include="StreetView.cs" />
     <Compile Include="TutorialActivity.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -157,15 +155,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\character.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\streetviewexample.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\roundscoreexample.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\leaderboard.png" />
   </ItemGroup>
   <ItemGroup>
@@ -178,9 +167,6 @@
     <AndroidResource Include="Resources\layout\play.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\timessquare.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\tutorial.xml">

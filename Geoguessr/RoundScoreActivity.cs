@@ -54,7 +54,7 @@ namespace Geoguessr
             distance.Text = diswrite;
 
             string getPoi = Intent.GetStringExtra("points");
-            if(getPoi == "10000")
+            if(getPoi == "5000")
                 diswrite = "Points: " + getPoi + " (Perfect Score!!!)";
             else
                 diswrite = "Points: " + getPoi;
