@@ -71,7 +71,7 @@ namespace Geoguessr
                 else
                     isLatLngOk = true;
             }
-            latlng = new LatLng(GetRandomCoordinate(-60, 70), GetRandomCoordinate(-130, 150));
+            latlng = new LatLng(latitude, longitude);
             streetViewPanoramaView.Visibility = ViewStates.Visible;
             streetViewPanoramaView.GetStreetViewPanoramaAsync(this);
 

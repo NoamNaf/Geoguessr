@@ -30,6 +30,8 @@ namespace Geoguessr
         }
         public static bool IsUserValid(Player player)
         {
+            if (player.userName == "" || player.password == "")
+                return true;
             string strsql = string.Format($"SELECT * FROM Player WHERE userName='{player.userName}' AND password='{player.password}'");
             var users = database.Query<Player>(strsql);
             return users.Count != 0;
